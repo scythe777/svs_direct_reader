@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>SLIDE VIEWER</title>
+    <script type="module" src='./js/main.js'></script>
+    <style>
+        html{
+            background-color: rgb(255, 247, 235);
+        }
+        .d {
+
+            border: 2px solid;
+            border-color: blueviolet;
+            height: 100px;
+            width: 120px;
+            background-color: antiquewhite;
+
+            overflow: hidden;
+            margin: 0px 2px 2px 2px;
+            padding: 10px 10px 0px 10px;
+            white-space: nowrap;
+
+            display: inline-block;
+            transition-property: width;
+            transition-duration: 0.4s;
+        }
+
+        .dc {
+            height: 140px;
+            width: 150px;
+            overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+            transition-property: width;
+            transition-duration: 0.4s;
+            margin: 5px 0px 0px 0px;
+        }
+
+        .dc:hover {
+            width: 320px;
+        }
+
+        .d:hover {
+            width: 280px;
+        }
+
+        .s {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border: 1px solid;
+            border-color: cornflowerblue;
+            margin: 0px 5px 0px 5px;
+            display: inline-block;
+            transition-property: box-shadow;
+            transition-duration: 0.1s;
+
+            background-image: url('../js/texture.png');
+            /*overflow: hidden;*/
+            /*float:left;*/
+
+        }
+
+        .s:hover {
+            box-shadow: 5px 5px 5px gray;
+
+        }
+
+        .footer {
+            -webkit-user-select: none;
+            user-select: none;
+            border: 1px solid;
+            border-color: chocolate;
+            height: 150px;
+            /*float:left;*/
+            background-color: aliceblue;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            display: inline-block;
+        }
+
+        .label {
+            padding-left: 4px;
+            padding-top: 2px;
+            min-width: 30px;
+            width: 50px;
+            height: 20px;
+            background-color: blueviolet;
+            margin-left: 2px;
+            color: whitesmoke;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
+        .v {
+            /*background-color: beige;
+            /*overflow: auto;
+            position: relative;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            display: flex;*/
+            /*overflow: hidden;*/
+            display: inline-block;
+            white-space: nowrap;
+            width: 95%;
+            padding: 5px;
+
+        }
+        .canvas3DD {
+            display: inline-block;
+            /*width:40%;*/
+            border: 2px solid cornflowerblue;
+            
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!--<script type='text/javascript' src="main.js"></script>-->
+    <div class="v" id="vie">
+        <canvas id="canvas3D" class = "canvas3DD">Ваш браузер не поддерживает элемент canvas</canvas>
+        <canvas id="canvas3D1" class = "canvas3DD">Ваш браузер не поддерживает элемент canvas</canvas>
+    </div>
+    <div class="footer">
+        <div class="dc">
+            <div class="label" contenteditable="true" spellcheck="false">A</div>
+            <div class="d" id="odiv1">
+                <div class="s" id="div1">
+
+                </div>
+                <div class="s" id="div2">
+
+                </div>
+            </div>
+        </div>
+        <div class="dc">
+            <div class="label" contenteditable="true" spellcheck="false">B</div>
+            <div class="d" id="odiv2">
+                <div class="s" id="div3">
+
+                </div>
+            </div>
+        </div>
+        <div class="dc">
+            <div class="label" contenteditable="true" spellcheck="false">C</div>
+            <div class="d" id="odiv1">
+                <div class="s" id="div4">
+
+                </div>
+                <div class="s" id="div5">
+
+                </div>
+                <div class="s" id="div6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

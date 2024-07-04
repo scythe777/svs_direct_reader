@@ -1,0 +1,14 @@
+/home/alex/projects/http1/bin/Debug/net8.0/http1
+/home/alex/projects/http1/bin/Debug/net8.0/http1.deps.json
+/home/alex/projects/http1/bin/Debug/net8.0/http1.runtimeconfig.json
+/home/alex/projects/http1/bin/Debug/net8.0/http1.dll
+/home/alex/projects/http1/bin/Debug/net8.0/http1.pdb
+/home/alex/projects/http1/obj/Debug/net8.0/http1.GeneratedMSBuildEditorConfig.editorconfig
+/home/alex/projects/http1/obj/Debug/net8.0/http1.AssemblyInfoInputs.cache
+/home/alex/projects/http1/obj/Debug/net8.0/http1.AssemblyInfo.cs
+/home/alex/projects/http1/obj/Debug/net8.0/http1.csproj.CoreCompileInputs.cache
+/home/alex/projects/http1/obj/Debug/net8.0/http1.dll
+/home/alex/projects/http1/obj/Debug/net8.0/refint/http1.dll
+/home/alex/projects/http1/obj/Debug/net8.0/http1.pdb
+/home/alex/projects/http1/obj/Debug/net8.0/http1.genruntimeconfig.cache
+/home/alex/projects/http1/obj/Debug/net8.0/ref/http1.dll
