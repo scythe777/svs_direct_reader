@@ -20,7 +20,7 @@ window.onload = function () {
         //setting material property
 
 
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2500);
         // установка z-координаты камеры
         camera.position.z = 1000;
         // настройка сцены
@@ -54,11 +54,11 @@ window.onload = function () {
 
         // настройка материала - установка цвета
         //material = new THREE.MeshBasicMaterial({ color: 0xf5a9c1, wireframe: false });
-
+        geometry1 = new THREE.BoxGeometry(700, 700, 700, 5, 5, 5); 
         material1 = new THREE.MeshBasicMaterial({ color: 0x447597, wireframe: true });
         // настраиваем меш, который будет отображать куб
         //camera1 = new THREE.OrthographicCamera(window.innerWidth / 2, window.innerWidth / -2, window.innerHeight / 2, window.innerHeight / -2, -5000, 5000);
-        camera1= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1500);
+        camera1= new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2500);
         // установка z-координаты камеры
         camera1.position.z = 1500;
         //material = new THREE.MeshPhongMaterial();
@@ -78,10 +78,10 @@ window.onload = function () {
         scene.add(mesh);
         scene1.add(mesh1);
         // создаем объект для рендеринга сцены
-        renderer = new THREE.WebGLRenderer({ canvas: canvas3D });
+        renderer = new THREE.WebGLRenderer({ canvas: canvas3D, antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth / 2 - 20, window.innerHeight / 2);
-        renderer2 = new THREE.WebGLRenderer({ canvas: canvas3D1 });
+        renderer2 = new THREE.WebGLRenderer({ canvas: canvas3D1, antialias: true });
         renderer2.setPixelRatio(window.devicePixelRatio);
         renderer2.setSize(window.innerWidth / 2 - 20, window.innerHeight / 2);
         // установка размеров
@@ -105,20 +105,20 @@ window.onload = function () {
     }
 
     function onDocumentKeyDown() {
-        var delta = 10;
+        var delta = 30;
         var keycode = event.keyCode;
         switch (keycode) {
             case 37: //left arrow 向左箭头
-                camera1.position.x = camera.position.x - delta;
+                camera1.position.x = camera1.position.x + delta;
                 break;
             case 38: // up arrow 向上箭头
-                camera1.position.y = camera.position.y - delta;
+                camera1.position.y = camera1.position.y - delta;
                 break;
             case 39: // right arrow 向右箭头
-                camera1.position.x = camera.position.x + delta;
+                camera1.position.x = camera1.position.x - delta;
                 break;
             case 40: //down arrow向下箭头
-                camera1.position.y = camera.position.y + delta;
+                camera1.position.y = camera1.position.y + delta;
                 break;
         }
     }
@@ -130,8 +130,8 @@ window.onload = function () {
         // вращение меша вокруг осей
         mesh.rotation.x += 0.006;
         mesh.rotation.y += 0.005;
-        /*mesh1.rotation.x -= 0.004;
-        mesh1.rotation.y += 0.004;*/
+        mesh1.rotation.x -= 0.004;
+        mesh1.rotation.y += 0.004;
         // рендеринг сцены - метод, производящий по сути отрисовку
         renderer.render(scene, camera);
 
