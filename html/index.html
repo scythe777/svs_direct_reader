@@ -14,7 +14,7 @@
             border: 2px solid;
             border-color: blueviolet;
             height: 100px;
-            width: 120px;
+            /*width: 120px;*/
             background-color: antiquewhite;
 
             overflow: hidden;
@@ -23,28 +23,28 @@
             white-space: nowrap;
 
             display: inline-block;
-            transition-property: width;
-            transition-duration: 0.4s;
+            /*transition-property: width;
+            transition-duration: 0.4s;*/
         }
 
         .dc {
             height: 140px;
-            width: 150px;
+            width: auto;
             overflow: hidden;
             display: inline-block;
             white-space: nowrap;
-            transition-property: width;
-            transition-duration: 0.4s;
+           /* transition-property: width;
+            transition-duration: 0.4s;*/
             margin: 5px 0px 0px 0px;
         }
 
-        .dc:hover {
+        /*.dc:hover {
             width: 320px;
-        }
+        }*/
 
-        .d:hover {
+        /*.d:hover {
             width: 280px;
-        }
+        }*/
 
         .s {
             width: 80px;
@@ -97,14 +97,7 @@
         }
 
         .v {
-            /*background-color: beige;
-            /*overflow: auto;
-            position: relative;
-            left: 0px;
-            right: 0px;
-            bottom: 0px;
-            display: flex;*/
-            /*overflow: hidden;*/
+
             display: inline-block;
             white-space: nowrap;
             width: 95%;
@@ -132,10 +125,10 @@
         <div class="dc">
             <div class="label" contenteditable="true" spellcheck="false">A</div>
             <div class="d" id="odiv1">
-                <div class="s" id="div1">
+                <div class="s" draggable="true" id="div1">
 
                 </div>
-                <div class="s" id="div2">
+                <div class="s" draggable="true" id="div2">
 
                 </div>
             </div>
@@ -143,7 +136,7 @@
         <div class="dc">
             <div class="label" contenteditable="true" spellcheck="false">B</div>
             <div class="d" id="odiv2">
-                <div class="s" id="div3">
+                <div class="s" draggable="true" id="div3">
 
                 </div>
             </div>
@@ -151,13 +144,13 @@
         <div class="dc">
             <div class="label" contenteditable="true" spellcheck="false">C</div>
             <div class="d" id="odiv1">
-                <div class="s" id="div4">
+                <div class="s" draggable="true" id="div4">
+                    
+                </div>
+                <div class="s" draggable="true" id="div5">
 
                 </div>
-                <div class="s" id="div5">
-
-                </div>
-                <div class="s" id="div6">
+                <div class="s" draggable="true" id="div6">
 
                 </div>
             </div>
