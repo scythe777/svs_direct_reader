@@ -35,9 +35,9 @@ namespace HttpListenerExample
                 Console.WriteLine(req.UserHostName);
                 Console.WriteLine(req.UserAgent);
                 Console.WriteLine();
-                if (req.Url.AbsolutePath == "/js/texture.png")
+                if (req.Url.AbsolutePath.StartsWith("/js/texture"))
                 {
-                    byte[] data = File.ReadAllBytes(@"./js/texture.png");
+                    byte[] data = File.ReadAllBytes("."+req.Url.AbsolutePath);
                     //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
                     //resp.ContentType = "";
                     resp.ContentType = MediaTypeNames.Image.Png;
