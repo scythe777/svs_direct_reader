@@ -168,19 +168,22 @@ let items = document.querySelectorAll('.s');
 let cont = document.querySelectorAll('.dblock');
 var md = 0;
 
-cont.forEach(function (con) {
 
-});
 var t;
 items.forEach(function (ball) {
     var td;
     var tc = null;
+    var dtarg;
+
     ball.onmousedown = function (event) { // (1) отследить нажатие
+        md = 1;
+
         td = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
         tc = ball.cloneNode();
         tc.style.border = "1px solid green";
         tc.style.opacity = "0.7";
-        let tb = ball.previousSibling;
+        tc.style = "background: lightblue";
+        let tb = ball.nextSibling;
         td.insertBefore(tc,tb);
         md = 1;
         let dragged = null;
@@ -207,6 +210,7 @@ items.forEach(function (ball) {
 
         function onMouseMove(event) {
             moveAt(event.pageX, event.pageY);
+               
         }
 
 
@@ -216,9 +220,6 @@ items.forEach(function (ball) {
         // (4) положить мяч, удалить более ненужные обработчики событий
         ball.onmouseup = function (event) {
             md = 0;
-            t
-
-
             //document.querySelector(".d").appendChild(ball);
             //document.elementsFromPoint(event.clientX, event.clientY).find(el=>el.className='dblock').appendChild(dragged);
             try {
@@ -247,6 +248,11 @@ items.forEach(function (ball) {
         ball.ondragover = function (e) {
             e.preventDefault();
         }
-
+        cont.forEach(function (con) {
+            if(md==1)
+            {
+                dtarg = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
+            }
+        });
     };
 });
