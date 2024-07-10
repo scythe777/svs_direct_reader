@@ -4,7 +4,7 @@ import * as THREE from "/js/three.module.js";
 
 
 window.onload = function () {
-    var camera, camera1, scene, scene1, renderer, renderer2;
+    var camera, camera1, scene, scene1, renderer, renderer2,renderer3,renderer4;
     var geometry, material, mesh;
     var geometry1, material1, mesh1;
     var geometry2, material2, mesh2;
@@ -98,10 +98,18 @@ window.onload = function () {
         // создаем объект для рендеринга сцены
         renderer = new THREE.WebGLRenderer({ canvas: canvas3D, antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth / 2 - 20, window.innerHeight / 2);
+        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 -90);
         renderer2 = new THREE.WebGLRenderer({ canvas: canvas3D1, antialias: true });
         renderer2.setPixelRatio(window.devicePixelRatio);
-        renderer2.setSize(window.innerWidth / 2 - 20, window.innerHeight / 2);
+        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        
+        renderer3 = new THREE.WebGLRenderer({ canvas: canvas3D2, antialias: true });
+        renderer3.setPixelRatio(window.devicePixelRatio);
+        renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+
+        renderer4 = new THREE.WebGLRenderer({ canvas: canvas3D3, antialias: true });
+        renderer4.setPixelRatio(window.devicePixelRatio);
+        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
         // установка размеров
         //renderer.setSize(window.innerWidth, window.innerHeight);
         // встраиваем в DOM-структуру страницы
@@ -117,8 +125,11 @@ window.onload = function () {
         camera.updateProjectionMatrix();
         camera1.aspect = window.innerWidth / window.innerHeight;
         camera1.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth / 2 - 20, window.innerHeight / 2);
-        renderer2.setSize(window.innerWidth / 2 - 20, window.innerHeight / 2);
+
+        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
 
     }
 
@@ -160,6 +171,8 @@ window.onload = function () {
         renderer.render(scene, camera);
 
         renderer2.render(scene1, camera1);
+        renderer3.render(scene, camera);
+        renderer4.render(scene, camera);
     }
 }
 
