@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.649" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.8.0" />
+  </ItemGroup>
+  
 </Project>

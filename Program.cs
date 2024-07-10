@@ -4,6 +4,7 @@ using System.Text;
 using System.Net;
 using System.Threading.Tasks;
 using System.Net.Mime;
+using BitMiracle.LibTiff.Classic;
 
 namespace HttpListenerExample
 {
@@ -21,6 +22,12 @@ namespace HttpListenerExample
             // While a user hasn't visited the `shutdown` url, keep on handling requests
             while (runServer)
             {
+                var input = Tiff.Open("5130.svs", "r");
+                input.SetDirectory(0);
+                byte[] tileBuf = new byte[100000];
+                int rts = (int)input.RawTileSize(11394);
+                input.ReadRawTile(11394, tileBuf, 0, rts);
+                //input.ReadTile(tileBuf,0,256,256,0,0);
                 // Will wait here until we hear from a connection
                 HttpListenerContext ctx = await listener.GetContextAsync();
 
@@ -37,15 +44,17 @@ namespace HttpListenerExample
                 Console.WriteLine();
                 if (req.Url.AbsolutePath.StartsWith("/js/texture"))
                 {
-                    byte[] data = File.ReadAllBytes("."+req.Url.AbsolutePath);
+                    //byte[] data = File.ReadAllBytes("." + req.Url.AbsolutePath);
                     //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
                     //resp.ContentType = "";
-                    resp.ContentType = MediaTypeNames.Image.Png;
+                    resp.ContentType = MediaTypeNames.Image.Jpeg;
                     resp.ContentEncoding = Encoding.UTF8;
-                    resp.ContentLength64 = data.LongLength;
+                    //resp.ContentLength64 = data.LongLength;
+                    resp.ContentLength64 = rts;
 
                     // Write out to the response stream (asynchronously), then close it
-                    resp.OutputStream.Write(data, 0, data.Length);
+                    //resp.OutputStream.Write(data, 0, data.Length);
+                    resp.OutputStream.Write(tileBuf, 0, rts);
                     resp.Close();
                 }
                 if (req.Url.AbsolutePath == "/js/main.js")

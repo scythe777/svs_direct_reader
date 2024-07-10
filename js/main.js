@@ -16,7 +16,7 @@ window.onload = function () {
         var loader = new THREE.TextureLoader();
 
         //loading texture
-        var texture = loader.load('./js/texture.png');
+        var texture = loader.load('./js/texture.jpg');
 
         //initializing material
         //var material = new THREE.MeshPhongMaterial();
