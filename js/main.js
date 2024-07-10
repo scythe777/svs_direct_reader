@@ -168,7 +168,6 @@ let items = document.querySelectorAll('.s');
 let cont = document.querySelectorAll('.dblock');
 var md = 0;
 
-
 var t;
 items.forEach(function (ball) {
     var td;
@@ -176,7 +175,7 @@ items.forEach(function (ball) {
     var dtarg;
 
     ball.onmousedown = function (event) { // (1) отследить нажатие
-        md = 1;
+        
 
         td = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
         tc = ball.cloneNode();
@@ -185,7 +184,6 @@ items.forEach(function (ball) {
         tc.style = "background: lightblue";
         let tb = ball.nextSibling;
         td.insertBefore(tc,tb);
-        md = 1;
         let dragged = null;
         dragged = ball;
         // (2) подготовить к перемещению:
@@ -219,7 +217,6 @@ items.forEach(function (ball) {
 
         // (4) положить мяч, удалить более ненужные обработчики событий
         ball.onmouseup = function (event) {
-            md = 0;
             //document.querySelector(".d").appendChild(ball);
             //document.elementsFromPoint(event.clientX, event.clientY).find(el=>el.className='dblock').appendChild(dragged);
             try {
@@ -248,11 +245,6 @@ items.forEach(function (ball) {
         ball.ondragover = function (e) {
             e.preventDefault();
         }
-        cont.forEach(function (con) {
-            if(md==1)
-            {
-                dtarg = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
-            }
-        });
+
     };
 });
