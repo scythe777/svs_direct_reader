@@ -63,8 +63,8 @@ window.onload = function () {
         geometry2 = new THREE.BufferGeometry();
         geometry2.setIndex(indices);
         geometry2.setAttribute('position', new THREE.BufferAttribute(vertices, 3));*/
-        geometry1 = new THREE.PlaneGeometry(300,300);
-        geometry2 = new THREE.PlaneGeometry(300,300);
+        geometry1 = new THREE.PlaneGeometry(300, 300);
+        geometry2 = new THREE.PlaneGeometry(300, 300);
 
         // настройка материала - установка цвета
         //material = new THREE.MeshBasicMaterial({ color: 0xf5a9c1, wireframe: false });
@@ -77,7 +77,7 @@ window.onload = function () {
         // установка z-координаты камеры
         camera1.position.z = 1500;
         //material = new THREE.MeshPhongMaterial();
-        material = new THREE.MeshPhongMaterial({wireframe:true});
+        material = new THREE.MeshPhongMaterial({ wireframe: true });
         material.map = texture;
 
         mesh = new THREE.Mesh(geometry, material);
@@ -165,31 +165,88 @@ window.onload = function () {
 
 /* ---------------------------- */
 let items = document.querySelectorAll('.s');
-let cont = document.querySelectorAll('.d');
-items.forEach(function (item) {
-    item.addEventListener('dragstart', handleDragStart);
-    item.addEventListener('dragend', handleDragEnd);
+let cont = document.querySelectorAll('.dblock');
+var md = 0;
+
+cont.forEach(function (con) {
+
 });
-cont.forEach(function (item) {
-    item.addEventListener('dragenter', handleDragEnter);
-    item.addEventListener('dragleave', handleDragLeave);
+var t;
+items.forEach(function (ball) {
+    var td;
+    var tc = null;
+    ball.onmousedown = function (event) { // (1) отследить нажатие
+        td = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
+        tc = ball.cloneNode();
+        tc.style.border = "1px solid green";
+        tc.style.opacity = "0.7";
+        let tb = ball.previousSibling;
+        td.insertBefore(tc,tb);
+        md = 1;
+        let dragged = null;
+        dragged = ball;
+        // (2) подготовить к перемещению:
+        // разместить поверх остального содержимого и в абсолютных координатах
+        ball.style.position = 'absolute';
+        ball.style.zIndex = 1000;
+        // переместим в body, чтобы мяч был точно не внутри position:relative
+        document.body.append(ball);
+
+        // и установим абсолютно спозиционированный мяч под курсор
+
+        moveAt(event.pageX, event.pageY);
+
+        // передвинуть мяч под координаты курсора
+        // и сдвинуть на половину ширины/высоты для центрирования
+
+        function moveAt(pageX, pageY) {
+
+            ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
+            ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
+        }
+
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+        }
+
+
+        // (3) перемещать по экрану
+        document.addEventListener('mousemove', onMouseMove);
+
+        // (4) положить мяч, удалить более ненужные обработчики событий
+        ball.onmouseup = function (event) {
+            md = 0;
+            t
+
+
+            //document.querySelector(".d").appendChild(ball);
+            //document.elementsFromPoint(event.clientX, event.clientY).find(el=>el.className='dblock').appendChild(dragged);
+            try {
+                let t = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
+                tc.remove();
+                t.appendChild(ball);
+            }
+            catch {
+                ball.onmouseup = null;
+                ball.style.position = null;
+                ball.style.zIndex = null;
+                td.appendChild(ball);
+            }
+            console.log(t);
+            document.removeEventListener('mousemove', onMouseMove);
+            ball.onmouseup = null;
+            ball.style.position = null;
+            ball.style.zIndex = null;
+            //cont[1].appendChild(ball);
+        };
+        ball.ondragstart = function (e) {
+
+            return false;
+
+        };
+        ball.ondragover = function (e) {
+            e.preventDefault();
+        }
+
+    };
 });
-
-function handleDragStart(e) {
-    this.style.opacity = '0.5';
-}
-
-function handleDragEnd(e) {
-    this.style.opacity = '1';
-}
-
-function handleDragEnter(e) {
-
-    //this.style.width =  this.style.width+'px';
-    console.log(this.style.width);
-
-}
-
-function handleDragLeave(e) {
-
-}
