@@ -186,6 +186,8 @@ items.forEach(function (ball) {
     var td;
     var tc = null;
     var dtarg;
+    var tcg = null;
+    var tb;
 
     ball.onmousedown = function (event) { // (1) отследить нажатие
         
@@ -195,7 +197,7 @@ items.forEach(function (ball) {
         tc.style.border = "1px solid green";
         tc.style.opacity = "0.7";
         tc.style = "background: lightblue";
-        let tb = ball.nextSibling;
+        tb = ball.nextSibling;
         td.insertBefore(tc,tb);
         let dragged = null;
         dragged = ball;
@@ -219,9 +221,24 @@ items.forEach(function (ball) {
             ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
         }
 
+        let tt = null;
         function onMouseMove(event) {
             moveAt(event.pageX, event.pageY);
-               
+            let t = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
+            
+            if(t != td && md==0 && tt!=t)
+            {
+                tt = t;
+                tcg = tc.cloneNode();
+                tcg.style.background = 'lightgreen';
+                t.appendChild(tcg);
+                md = 1;
+            }
+            if(t!=tt)
+            {
+                tcg.remove();
+                md = 0;
+            }
         }
 
 
@@ -230,20 +247,37 @@ items.forEach(function (ball) {
 
         // (4) положить мяч, удалить более ненужные обработчики событий
         ball.onmouseup = function (event) {
+            md = 0;
+            
             //document.querySelector(".d").appendChild(ball);
             //document.elementsFromPoint(event.clientX, event.clientY).find(el=>el.className='dblock').appendChild(dragged);
             try {
                 let t = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
-                tc.remove();
-                t.appendChild(ball);
+                if(t == td)
+                {
+                    /*let tb = ball.nextSibling;
+                    t.insertBefore(tb,tc)*/
+                    t.insertBefore(ball,t);
+                    tc.remove();
+                    
+                }
+                else
+                {
+                    t.appendChild(ball);
+                    tc.remove();
+                }
             }
             catch {
                 ball.onmouseup = null;
                 ball.style.position = null;
                 ball.style.zIndex = null;
-                td.appendChild(ball);
+                //tc = ball;
+                td.insertBefore(ball,tb);
+                tc.remove();
+                //td.appendChild(ball);
             }
-            console.log(t);
+            tcg.remove();
+            
             document.removeEventListener('mousemove', onMouseMove);
             ball.onmouseup = null;
             ball.style.position = null;
