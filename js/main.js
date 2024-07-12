@@ -191,7 +191,7 @@ items.forEach(function (ball) {
 
     ball.onmousedown = function (event) { // (1) отследить нажатие
         
-
+        if(event.buttons!=1) {return}
         td = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
         tc = ball.cloneNode();
         tc.style.border = "1px solid green";
@@ -276,6 +276,7 @@ items.forEach(function (ball) {
                 //tc = ball;
                 td.insertBefore(ball,tb);
                 tc.remove();
+                tcg.remove();
                 //td.appendChild(ball);
             }
             tcg.remove();
