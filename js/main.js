@@ -264,7 +264,7 @@ items.forEach(function (ball) {
                 else
                 {
                     t.appendChild(ball);
-                    tc.remove();
+                    setTimeout(function() { tc.remove()},200);
                 }
             }
             catch {
