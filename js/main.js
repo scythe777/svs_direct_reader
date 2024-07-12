@@ -190,9 +190,10 @@ items.forEach(function (ball) {
     var dtarg;
     var tcg = null;
     var tb;
+    var ballselected = 0;
 
     ball.onmousedown = function (event) { // (1) отследить нажатие
-        
+        ballselected = 1;
         if(event.buttons!=1) {return}
         td = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
         tc = ball.cloneNode();
@@ -228,7 +229,7 @@ items.forEach(function (ball) {
             moveAt(event.pageX, event.pageY);
             let t = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
             
-            if(t != td && md==0 && tt!=t)
+            if(t != td && md==0 && tt!=t && ballselected==1)
             {
                 tt = t;
                 tcg = tc.cloneNode();
@@ -236,7 +237,7 @@ items.forEach(function (ball) {
                 t.appendChild(tcg);
                 md = 1;
             }
-            if(t!=tt)
+            if(t!=tt && ballselected==1)
             {
                 tcg.remove();
                 md = 0;
@@ -250,7 +251,7 @@ items.forEach(function (ball) {
         // (4) положить мяч, удалить более ненужные обработчики событий
         ball.onmouseup = function (event) {
             md = 0;
-            
+            ballselected = 0;
             //document.querySelector(".d").appendChild(ball);
             //document.elementsFromPoint(event.clientX, event.clientY).find(el=>el.className='dblock').appendChild(dragged);
             try {
