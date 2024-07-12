@@ -17,6 +17,7 @@ window.onload = function () {
 
         //loading texture
         var texture = loader.load('./js/texture.jpg');
+        
 
         //initializing material
         //var material = new THREE.MeshPhongMaterial();
@@ -71,11 +72,12 @@ window.onload = function () {
         //geometry1 = new THREE.BoxGeometry(700, 700, 700, 5, 5, 5); 
         //material1 = new THREE.MeshBasicMaterial({ color: 0x447597, wireframe: false });
         material1 = new THREE.MeshPhongMaterial({ map: texture });
+        material1.map.minFilter = THREE.LinearFilter;
         // настраиваем меш, который будет отображать куб
         //camera1 = new THREE.OrthographicCamera(window.innerWidth / 2, window.innerWidth / -2, window.innerHeight / 2, window.innerHeight / -2, -5000, 5000);
         camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2500);
         // установка z-координаты камеры
-        camera1.position.z = 1500;
+        camera1.position.z = 150;
         //material = new THREE.MeshPhongMaterial();
         material = new THREE.MeshPhongMaterial({ wireframe: true });
         material.map = texture;
@@ -88,8 +90,8 @@ window.onload = function () {
 
         var light = new THREE.AmbientLight(0xffffff, 2);
         light.position.set(1000, 1000, 1000);
-        var light1 = new THREE.AmbientLight(0xffffff, 2);
-        light.position.set(1000, 1000, 1000);
+        var light1 = new THREE.AmbientLight(0xffffff, 3);
+        //light.position.set(1000, 1000, 1000);
         scene.add(light);
         scene1.add(light1);
         scene.add(mesh);
