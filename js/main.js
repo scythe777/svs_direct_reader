@@ -259,12 +259,14 @@ items.forEach(function (ball) {
                     t.insertBefore(tb,tc)*/
                     t.insertBefore(ball,t);
                     tc.remove();
-                    
+                    tcg.remove();
                 }
                 else
                 {
                     t.appendChild(ball);
                     setTimeout(function() { tc.remove()},200);
+                    tcg.remove();
+                    //tc.remove();
                 }
             }
             catch {
