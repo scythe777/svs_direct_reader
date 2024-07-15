@@ -4,7 +4,7 @@ import * as THREE from "/js/three.module.js";
 
 
 window.onload = function () {
-    var camera, camera1, scene, scene1, renderer, renderer2,renderer3,renderer4;
+    var camera, camera1, scene, scene1, renderer, renderer2, renderer3, renderer4;
     var geometry, material, mesh;
     var geometry1, material1, mesh1;
     var geometry2, material2, mesh2;
@@ -16,8 +16,8 @@ window.onload = function () {
         var loader = new THREE.TextureLoader();
 
         //loading texture
-        var texture = loader.load('./js/texture.jpg');
-        
+        var texture = loader.load('./js/texture.png');
+
 
         //initializing material
         //var material = new THREE.MeshPhongMaterial();
@@ -57,61 +57,69 @@ window.onload = function () {
         ];
 
 
-        /*geometry1 = new THREE.BufferGeometry();
-        geometry1.setIndex(indices);
-        geometry1.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-
-        geometry2 = new THREE.BufferGeometry();
-        geometry2.setIndex(indices);
-        geometry2.setAttribute('position', new THREE.BufferAttribute(vertices, 3));*/
-        geometry1 = new THREE.PlaneGeometry(300, 300);
-        geometry2 = new THREE.PlaneGeometry(300, 300);
-
-        // настройка материала - установка цвета
-        //material = new THREE.MeshBasicMaterial({ color: 0xf5a9c1, wireframe: false });
-        //geometry1 = new THREE.BoxGeometry(700, 700, 700, 5, 5, 5); 
-        //material1 = new THREE.MeshBasicMaterial({ color: 0x447597, wireframe: false });
-        material1 = new THREE.MeshPhongMaterial({ map: texture });
-        material1.map.minFilter = THREE.LinearFilter;
-        // настраиваем меш, который будет отображать куб
-        //camera1 = new THREE.OrthographicCamera(window.innerWidth / 2, window.innerWidth / -2, window.innerHeight / 2, window.innerHeight / -2, -5000, 5000);
-        camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2500);
+        camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 5000);
         // установка z-координаты камеры
-        camera1.position.z = 150;
+        camera1.position.z = 1000;
+        camera1.position.y = 1000;
+        camera1.position.x = 2000;
         //material = new THREE.MeshPhongMaterial();
         material = new THREE.MeshPhongMaterial({ wireframe: true });
         material.map = texture;
 
         mesh = new THREE.Mesh(geometry, material);
-        mesh1 = new THREE.Mesh(geometry1, material1);
+        /*mesh1 = new THREE.Mesh(geometry1, material1);
         mesh2 = new THREE.Mesh(geometry2, material1);
         mesh1.position.x = 100;
-        mesh2.position.x = 400;
+        mesh2.position.x = 400;*/
 
         var light = new THREE.AmbientLight(0xffffff, 2);
         light.position.set(1000, 1000, 1000);
         var light1 = new THREE.AmbientLight(0xffffff, 3);
         //light.position.set(1000, 1000, 1000);
+
+        var geom = new Array();
+        var mat = new Array();
+        var mes = new Array();
+        let j = 1;
+        for (let j = 0; j < 15; j++) {
+            for (let i = 0; i < 15; i++)
+            //{
+            {
+                geom[i, j] = new THREE.PlaneGeometry(300, 300);
+                texture = loader.load('./js/texture' + (i + 9833 - j * 258));
+                console.log('./js/texture' + (i + 9833 - j * 258));
+                mat[i, j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                mes[i, j] = new THREE.Mesh(geom[i, j], mat[i, j]);
+                scene1.add(mes[i, j]);
+                mes[i, j].position.x = i * 300;
+                mes[i, j].position.y = j * 300;
+                //mes[i,j].position.y = j*300;
+
+
+            }   //}
+        }
+
+
         scene.add(light);
         scene1.add(light1);
         scene.add(mesh);
-        scene1.add(mesh1);
-        scene1.add(mesh2);
+        /*scene1.add(mesh1);
+        scene1.add(mesh2);*/
         // создаем объект для рендеринга сцены
         renderer = new THREE.WebGLRenderer({ canvas: canvas3D, antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 -90);
+        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
         renderer2 = new THREE.WebGLRenderer({ canvas: canvas3D1, antialias: true });
         renderer2.setPixelRatio(window.devicePixelRatio);
-        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
-        
+        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
+
         renderer3 = new THREE.WebGLRenderer({ canvas: canvas3D2, antialias: true });
         renderer3.setPixelRatio(window.devicePixelRatio);
-        renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
 
         renderer4 = new THREE.WebGLRenderer({ canvas: canvas3D3, antialias: true });
         renderer4.setPixelRatio(window.devicePixelRatio);
-        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
         // установка размеров
         //renderer.setSize(window.innerWidth, window.innerHeight);
         // встраиваем в DOM-структуру страницы
@@ -128,10 +136,10 @@ window.onload = function () {
         camera1.aspect = window.innerWidth / window.innerHeight;
         camera1.updateProjectionMatrix();
 
-        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
-        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
-        renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
-        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2-90);
+        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
+        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
+        renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
+        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
 
     }
 
@@ -194,14 +202,14 @@ items.forEach(function (ball) {
 
     ball.onmousedown = function (event) { // (1) отследить нажатие
         ballselected = 1;
-        if(event.buttons!=1) {return}
+        if (event.buttons != 1) { return }
         td = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
         tc = ball.cloneNode();
         tc.style.border = "1px solid green";
         tc.style.opacity = "0.7";
         tc.style = "background: lightblue";
         tb = ball.nextSibling;
-        td.insertBefore(tc,tb);
+        td.insertBefore(tc, tb);
         let dragged = null;
         dragged = ball;
         // (2) подготовить к перемещению:
@@ -228,17 +236,15 @@ items.forEach(function (ball) {
         function onMouseMove(event) {
             moveAt(event.pageX, event.pageY);
             let t = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
-            
-            if(t != td && md==0 && tt!=t && ballselected==1)
-            {
+
+            if (t != td && md == 0 && tt != t && ballselected == 1) {
                 tt = t;
                 tcg = tc.cloneNode();
                 tcg.style.background = 'lightgreen';
                 t.appendChild(tcg);
                 md = 1;
             }
-            if(t!=tt && ballselected==1)
-            {
+            if (t != tt && ballselected == 1) {
                 tcg.remove();
                 md = 0;
             }
@@ -256,18 +262,16 @@ items.forEach(function (ball) {
             //document.elementsFromPoint(event.clientX, event.clientY).find(el=>el.className='dblock').appendChild(dragged);
             try {
                 let t = document.elementsFromPoint(event.clientX, event.clientY).find(el => el.className == 'dblock');
-                if(t == td)
-                {
+                if (t == td) {
                     /*let tb = ball.nextSibling;
                     t.insertBefore(tb,tc)*/
-                    t.insertBefore(ball,t);
+                    t.insertBefore(ball, t);
                     tc.remove();
                     tcg.remove();
                 }
-                else
-                {
+                else {
                     t.appendChild(ball);
-                    setTimeout(function() { tc.remove()},200);
+                    setTimeout(function () { tc.remove() }, 200);
                     tcg.remove();
                     //tc.remove();
                 }
@@ -277,13 +281,13 @@ items.forEach(function (ball) {
                 ball.style.position = null;
                 ball.style.zIndex = null;
                 //tc = ball;
-                td.insertBefore(ball,tb);
+                td.insertBefore(ball, tb);
                 tc.remove();
                 tcg.remove();
                 //td.appendChild(ball);
             }
             tcg.remove();
-            
+
             document.removeEventListener('mousemove', onMouseMove);
             ball.onmouseup = null;
             ball.style.position = null;
