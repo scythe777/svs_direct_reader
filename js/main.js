@@ -81,12 +81,12 @@ window.onload = function () {
         var mat = new Array();
         var mes = new Array();
         let j = 1;
-        for (let j = 0; j < 15; j++) {
-            for (let i = 0; i < 15; i++)
+        for (let j = 0; j < 20; j++) {
+            for (let i = 0; i < 20; i++)
             //{
             {
                 geom[i, j] = new THREE.PlaneGeometry(300, 300);
-                texture = loader.load('./js/texture' + (i + 9833 - j * 258));
+                texture = loader.load('./js/texture' + (i + 9333 - j * 258));
                 console.log('./js/texture' + (i + 9833 - j * 258));
                 mat[i, j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                 mes[i, j] = new THREE.Mesh(geom[i, j], mat[i, j]);
@@ -99,7 +99,16 @@ window.onload = function () {
             }   //}
         }
 
+        /*setTimeout(function() {
+            for (let j = 0; j < 20; j++) {
+                for (let i = 0; i < 20; i++)
+                {
+                    scene1.remove(mes[i,j]);
+                }
 
+            }
+        },1000);*/
+        
         scene.add(light);
         scene1.add(light1);
         scene.add(mesh);
@@ -124,10 +133,11 @@ window.onload = function () {
         //renderer.setSize(window.innerWidth, window.innerHeight);
         // встраиваем в DOM-структуру страницы
         //document.body.appendChild(renderer.domElement);
+
     }
 
     window.addEventListener('resize', onWindowResize, false);
-    window.addEventListener('keydown', onDocumentKeyDown, false);
+    //window.addEventListener('keydown', onDocumentKeyDown, false);
 
     function onWindowResize() {
 
@@ -143,7 +153,7 @@ window.onload = function () {
 
     }
 
-    function onDocumentKeyDown() {
+    /*function onDocumentKeyDown() {
         var delta = 50;
         var keycode = event.keyCode;
         switch (keycode) {
@@ -166,7 +176,25 @@ window.onload = function () {
                 camera1.position.z = camera1.position.z + delta;
                 break;
         }
+    }*/
+
+    var mx = 0;
+    var my = 0;
+    var deltam = 4.8;
+    document.getElementById("canvas3D1").onmousemove = function (e) {
+        if(e.buttons == 1)
+        {
+            camera1.position.x = camera1.position.x - e.movementX*deltam;
+            camera1.position.y = camera1.position.y + e.movementY*deltam;
+        }
     }
+
+    /*document.getElementById("canvas3D1").onwheel = function (e) {
+            camera1.position.z = camera1.position.z + e.deltaY*4;
+
+    }*/
+
+
 
     // функция анимации
     function animate() {
