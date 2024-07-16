@@ -8,6 +8,11 @@ window.onload = function () {
     var geometry, material, mesh;
     var geometry1, material1, mesh1;
     var geometry2, material2, mesh2;
+
+    var geom ;
+        var mat ;
+        var mes ;
+
     init();
     animate();
     // инициализация начальных значений
@@ -77,41 +82,51 @@ window.onload = function () {
         var light1 = new THREE.AmbientLight(0xffffff, 3);
         //light.position.set(1000, 1000, 1000);
 
-        var geom = new Array();
-        var mat = new Array();
-        var mes = new Array();
-        let j = 1;
-        for (let j = 0; j < 20; j++) {
-            for (let i = 0; i < 20; i++)
-            //{
+        geom = new Array();
+        mat = new Array();
+        mes = new Array();
+        var ge;
+        var ma;
+        for (let i = 0; i < 20; i++) {
+            geom[i] = [];
+            mat[i] = [];
+            mes[i] = [];
+            
+            for (let j = 0; j < 20; j++)
             {
-                geom[i, j] = new THREE.PlaneGeometry(300, 300);
+                //geom[i][j] = new THREE.PlaneGeometry(300, 300);
                 texture = loader.load('./js/texture' + (i + 9333 - j * 258));
-                console.log('./js/texture' + (i + 9833 - j * 258));
-                mat[i, j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                mes[i, j] = new THREE.Mesh(geom[i, j], mat[i, j]);
-                scene1.add(mes[i, j]);
-                mes[i, j].position.x = i * 300;
-                mes[i, j].position.y = j * 300;
+                //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                var ge = new THREE.PlaneGeometry(300, 300);
+                var ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                mes[i][j] = new THREE.Mesh(ge, ma);
+                //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
+                mes[i][j].position.x = i * 300;
+                mes[i][j].position.y = j * 300;
+                scene1.add(mes[i][j]);
+                
                 //mes[i,j].position.y = j*300;
-
-
-            }   //}
+            
+            }
         }
 
-        /*setTimeout(function() {
-            for (let j = 0; j < 20; j++) {
-                for (let i = 0; i < 20; i++)
-                {
-                    scene1.remove(mes[i,j]);
-                }
-
-            }
-        },1000);*/
         
+
         scene.add(light);
         scene1.add(light1);
         scene.add(mesh);
+
+        /*setTimeout(function() {
+
+            for (let i = 1; i < 10; i++) {
+                for (let j = 1; j < 10; j++)
+                {
+                    scene1.remove(mes[i][j]);
+                }
+            }
+            
+        }, 1000);*/
+
         /*scene1.add(mesh1);
         scene1.add(mesh2);*/
         // создаем объект для рендеринга сцены
@@ -136,6 +151,7 @@ window.onload = function () {
 
     }
 
+
     window.addEventListener('resize', onWindowResize, false);
     //window.addEventListener('keydown', onDocumentKeyDown, false);
 
@@ -153,33 +169,10 @@ window.onload = function () {
 
     }
 
-    /*function onDocumentKeyDown() {
-        var delta = 50;
-        var keycode = event.keyCode;
-        switch (keycode) {
-            case 37: //left arrow 向左箭头
-                camera1.position.x = camera1.position.x + delta;
-                break;
-            case 38: // up arrow 向上箭头
-                camera1.position.y = camera1.position.y - delta;
-                break;
-            case 39: // right arrow 向右箭头
-                camera1.position.x = camera1.position.x - delta;
-                break;
-            case 40: //down arrow向下箭头
-                camera1.position.y = camera1.position.y + delta;
-                break;
-            case 61:
-                camera1.position.z = camera1.position.z - delta;
-                break;
-            case 173:
-                camera1.position.z = camera1.position.z + delta;
-                break;
-        }
-    }*/
 
     var mx = 0;
     var my = 0;
+   
     var deltam = 4.8;
     document.getElementById("canvas3D1").onmousemove = function (e) {
         if(e.buttons == 1)
@@ -187,32 +180,27 @@ window.onload = function () {
             camera1.position.x = camera1.position.x - e.movementX*deltam;
             camera1.position.y = camera1.position.y + e.movementY*deltam;
         }
+
     }
-
-    /*document.getElementById("canvas3D1").onwheel = function (e) {
-            camera1.position.z = camera1.position.z + e.deltaY*4;
-
-    }*/
-
-
 
     // функция анимации
     function animate() {
 
         requestAnimationFrame(animate);
         // вращение меша вокруг осей
-        mesh.rotation.x += 0.006;
-        mesh.rotation.y += 0.005;
+        mesh.rotation.x += 0.003;
+        mesh.rotation.y += 0.002;
         /*mesh1.rotation.x -= 0.004;
         mesh1.rotation.y += 0.004;*/
         // рендеринг сцены - метод, производящий по сути отрисовку
         renderer.render(scene, camera);
-
         renderer2.render(scene1, camera1);
         renderer3.render(scene, camera);
         renderer4.render(scene, camera);
     }
 }
+
+
 
 /* ---------------------------- */
 let items = document.querySelectorAll('.s');
