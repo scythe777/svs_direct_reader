@@ -95,7 +95,7 @@ window.onload = function () {
             for (let j = 0; j < 20; j++)
             {
                 //geom[i][j] = new THREE.PlaneGeometry(300, 300);
-                texture = loader.load('./js/texture' + (i + 9333 - j * 258));
+                texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
                 //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                 var ge = new THREE.PlaneGeometry(300, 300);
                 var ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
@@ -179,6 +179,10 @@ window.onload = function () {
         {
             camera1.position.x = camera1.position.x - e.movementX*deltam;
             camera1.position.y = camera1.position.y + e.movementY*deltam;
+            console.log(camera1.position.x);
+
+                    //scene1.remove(mes[Math.round(camera1.position.x/1000)][Math.round(camera1.position.x/1000)]);
+
         }
 
     }
