@@ -9,19 +9,27 @@ window.onload = function () {
     var geometry1, material1, mesh1;
     var geometry2, material2, mesh2;
 
-    var geom ;
-        var mat ;
-        var mes ;
+    var geom;
+    var mat;
+    var mes;
+    var loader;
+    var lx = 258;
+    var ly = 126;
+    var lxh = 179;
+    var lyh = 68;
+    var texture;
+    var ge;
+    var ma;
 
     init();
     animate();
     // инициализация начальных значений
     function init() {
         // создаем камеру - перспективная проекция
-        var loader = new THREE.TextureLoader();
+        loader = new THREE.TextureLoader();
 
         //loading texture
-        var texture = loader.load('./js/texture.png');
+        texture = loader.load('./js/texture.png');
 
 
         //initializing material
@@ -62,11 +70,11 @@ window.onload = function () {
         ];
 
 
-        camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 5000);
+        camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
         // установка z-координаты камеры
         camera1.position.z = 1000;
-        camera1.position.y = 1000;
-        camera1.position.x = 2000;
+        camera1.position.y = 0;
+        camera1.position.x = 0;
         //material = new THREE.MeshPhongMaterial();
         material = new THREE.MeshPhongMaterial({ wireframe: true });
         material.map = texture;
@@ -85,50 +93,39 @@ window.onload = function () {
         geom = new Array();
         mat = new Array();
         mes = new Array();
-        var ge;
-        var ma;
-        for (let i = 0; i < 20; i++) {
-            geom[i] = [];
-            mat[i] = [];
+
+
+        for (let i = -10; i < 10; i++) {
+            /*geom[i] = [];
+            mat[i] = [];*/
             mes[i] = [];
-            
-            for (let j = 0; j < 20; j++)
-            {
+
+            for (let j = -10; j < 10; j++) {
                 //geom[i][j] = new THREE.PlaneGeometry(300, 300);
-                texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
+                //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
+                texture = loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
                 //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                var ge = new THREE.PlaneGeometry(300, 300);
-                var ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                ge = new THREE.PlaneGeometry(300, 300);
+                ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                 mes[i][j] = new THREE.Mesh(ge, ma);
                 //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
                 mes[i][j].position.x = i * 300;
                 mes[i][j].position.y = j * 300;
                 scene1.add(mes[i][j]);
-                
+
                 //mes[i,j].position.y = j*300;
-            
+
             }
         }
 
-        
+
+
 
         scene.add(light);
         scene1.add(light1);
         scene.add(mesh);
 
-        /*setTimeout(function() {
 
-            for (let i = 1; i < 10; i++) {
-                for (let j = 1; j < 10; j++)
-                {
-                    scene1.remove(mes[i][j]);
-                }
-            }
-            
-        }, 1000);*/
-
-        /*scene1.add(mesh1);
-        scene1.add(mesh2);*/
         // создаем объект для рендеринга сцены
         renderer = new THREE.WebGLRenderer({ canvas: canvas3D, antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -150,7 +147,54 @@ window.onload = function () {
         //document.body.appendChild(renderer.domElement);
 
     }
+    var mx = 0;
+    var my = 0;
+    var trigx = 0;
+    var trigy = 0;
+    var deltax = 0;
 
+    var deltam = 4;
+    document.getElementById("canvas3D1").onmousemove = function (e) {
+        if (e.buttons == 1) {
+            camera1.position.x = camera1.position.x - e.movementX * deltam * (camera1.position.z / 1000);
+            camera1.position.y = camera1.position.y + e.movementY * deltam * (camera1.position.z / 1000);
+            console.log(Math.round(camera1.position.x / 100));
+            if (trigx != Math.round(camera1.position.x / 100) && Math.round(camera1.position.x / 100) % 5 == 0) {
+                trigx = Math.round(camera1.position.x / 100);
+                deltax = deltax+1;
+
+                for (let i = 0; i < 5; i++) {
+
+                    var newi = +i + +deltax;
+                    console.log(newi);
+                    mes[newi] = [];
+
+                    for (let j = -10; j < 10; j++) {
+
+                        texture = loader.load('./js/texture_' + (+9 + lxh + +newi) + "_" + (+lyh + -j));
+                        //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                        ge = new THREE.PlaneGeometry(300, 300);
+                        ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                        if (mes[newi][j] == undefined) {
+                            mes[newi][j] = new THREE.Mesh(ge, ma);
+                            //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
+                            mes[newi][j].position.x = (+newi + +9) * 300;
+                            mes[newi][j].position.y = j * 300;
+                            scene1.add(mes[newi][j]);
+                        }
+                        //scene1.remove(mes[-10+ +newi][j]);
+                    }
+                }
+            }
+            //scene1.remove(mes[Math.round(camera1.position.x/1000)][Math.round(camera1.position.x/1000)]);
+
+        }
+
+    }
+    document.getElementById("canvas3D1").onwheel = function (e) {
+        camera1.position.z = camera1.position.z + e.deltaY * 0.8 * (camera1.position.z / 1000);
+        //console.log(camera1.position.z);
+    }
 
     window.addEventListener('resize', onWindowResize, false);
     //window.addEventListener('keydown', onDocumentKeyDown, false);
@@ -170,22 +214,7 @@ window.onload = function () {
     }
 
 
-    var mx = 0;
-    var my = 0;
-   
-    var deltam = 4.8;
-    document.getElementById("canvas3D1").onmousemove = function (e) {
-        if(e.buttons == 1)
-        {
-            camera1.position.x = camera1.position.x - e.movementX*deltam;
-            camera1.position.y = camera1.position.y + e.movementY*deltam;
-            console.log(camera1.position.x);
 
-                    //scene1.remove(mes[Math.round(camera1.position.x/1000)][Math.round(camera1.position.x/1000)]);
-
-        }
-
-    }
 
     // функция анимации
     function animate() {

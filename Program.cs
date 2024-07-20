@@ -60,9 +60,12 @@ namespace HttpListenerExample
                     }
                     else
                     {
-                    int tile = Int32.Parse(req.Url.AbsolutePath.Split("texture").Last());
-                    int rts = (int)input.RawTileSize(tile);
-                    input.ReadRawTile(tile, tileBuf, 0, rts);
+                    Console.WriteLine(req.Url.AbsolutePath);
+                    //int tile = Int32.Parse(req.Url.AbsolutePath.Split("_").Last());
+                    int tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
+                    int tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
+                    int rts = (int)input.RawTileSize(tilex+tiley*258);
+                    input.ReadRawTile(tilex+tiley*258, tileBuf, 0, rts);
                     //byte[] data = File.ReadAllBytes("." + req.Url.AbsolutePath);
                     //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
                     //resp.ContentType = "";
