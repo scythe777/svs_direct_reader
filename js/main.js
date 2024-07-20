@@ -209,12 +209,22 @@ window.onload = function () {
         }
 
     }
+
+    var zdelta = 0.001;
     document.getElementById("canvas3D1").onwheel = function (e) {
         //camera1.position.z = camera1.position.z + e.deltaY * 0.8 * (camera1.position.z / 1000);
-        camera1.left = camera1.left-e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
+        /*camera1.left = camera1.left-e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
         camera1.right = camera1.right+e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
         camera1.top = camera1.top+e.deltaY;
-        camera1.bottom = camera1.bottom-e.deltaY;
+        camera1.bottom = camera1.bottom-e.deltaY;*/
+        console.log(camera1.zoom);
+
+            if(e.deltaY>0) zdelta=zdelta+0.001; else zdelta=zdelta-0.001;
+            
+            camera1.zoom = camera1.zoom + e.deltaY*zdelta;
+            if(camera1.zoom<1) camera1.zoom = 1;
+        
+
         camera1.updateProjectionMatrix();
         //console.log(camera1.position.z);
     }
