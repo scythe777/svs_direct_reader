@@ -70,7 +70,8 @@ window.onload = function () {
         ];
 
 
-        camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
+        //camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
+        camera1 = new THREE.OrthographicCamera( -window.innerWidth, window.innerWidth, window.innerHeight, -window.innerHeight, 1, 15000 );
         // установка z-координаты камеры
         camera1.position.z = 1000;
         camera1.position.y = 0;
@@ -209,7 +210,12 @@ window.onload = function () {
 
     }
     document.getElementById("canvas3D1").onwheel = function (e) {
-        camera1.position.z = camera1.position.z + e.deltaY * 0.8 * (camera1.position.z / 1000);
+        //camera1.position.z = camera1.position.z + e.deltaY * 0.8 * (camera1.position.z / 1000);
+        camera1.left = camera1.left-e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
+        camera1.right = camera1.right+e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
+        camera1.top = camera1.top+e.deltaY;
+        camera1.bottom = camera1.bottom-e.deltaY;
+        camera1.updateProjectionMatrix();
         //console.log(camera1.position.z);
     }
 
