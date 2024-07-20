@@ -151,41 +151,58 @@ window.onload = function () {
     var my = 0;
     var trigx = 0;
     var trigy = 0;
+    var trigy = 0;
     var deltax = 0;
 
+    var newi;
+    var newj;
+
     var deltam = 4;
+    var currentx = 10;
+    var currenty = 10;
     document.getElementById("canvas3D1").onmousemove = function (e) {
         if (e.buttons == 1) {
             camera1.position.x = camera1.position.x - e.movementX * deltam * (camera1.position.z / 1000);
             camera1.position.y = camera1.position.y + e.movementY * deltam * (camera1.position.z / 1000);
-            console.log(Math.round(camera1.position.x / 100));
-            if (trigx != Math.round(camera1.position.x / 100) && Math.round(camera1.position.x / 100) % 5 == 0) {
+            /*console.log(Math.round(camera1.position.x / 100));
+            if ((trigx != Math.round(camera1.position.x / 100) && Math.round(camera1.position.x / 500) % 5 == 0)) {
                 trigx = Math.round(camera1.position.x / 100);
+                trigy = Math.round(camera1.position.y / 100);
                 deltax = deltax+1;
 
                 for (let i = 0; i < 5; i++) {
 
-                    var newi = +i + +deltax;
-                    console.log(newi);
+                    newi = +i + +currentx;
+                    //console.log(newi);
                     mes[newi] = [];
+                    mes[newj] = [];
 
-                    for (let j = -10; j < 10; j++) {
-
-                        texture = loader.load('./js/texture_' + (+9 + lxh + +newi) + "_" + (+lyh + -j));
+                    for (let j = 0; j < 5; j++) {
+                        newj = +j + +currenty;
+                        console.log(newi + " " + newj);
+                        //console.log('./js/texture_' + (+lxh + +newi) + "_" + (+lyh + -newj));
+                        texture = loader.load('./js/texture_' + (+lxh + +newi) + "_" + (+lyh + -newj));
                         //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                         ge = new THREE.PlaneGeometry(300, 300);
                         ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                        if (mes[newi][j] == undefined) {
-                            mes[newi][j] = new THREE.Mesh(ge, ma);
+                        if (mes[newi][newj] == undefined) {
+                            mes[newi][newj] = new THREE.Mesh(ge, ma);
                             //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
-                            mes[newi][j].position.x = (+newi + +9) * 300;
-                            mes[newi][j].position.y = j * 300;
-                            scene1.add(mes[newi][j]);
+                            mes[newi][newj].position.x = (+newi) * 300;
+                            mes[newi][newj].position.y = newj * 300;
+                            scene1.add(mes[newi][newj]);
+                            try
+                            {
+                               //scene1.remove(mes[newi-100][newj-100]);
+                            }
+                            catch{}
                         }
                         //scene1.remove(mes[-10+ +newi][j]);
                     }
                 }
-            }
+                currentx+=5;
+                currenty+=5;
+            }*/
             //scene1.remove(mes[Math.round(camera1.position.x/1000)][Math.round(camera1.position.x/1000)]);
 
         }
