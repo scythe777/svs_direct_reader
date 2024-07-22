@@ -158,13 +158,13 @@ window.onload = function () {
     var newi;
     var newj;
 
-    var deltam = 4;
+    var deltam = 4.8;
     var currentx = 10;
     var currenty = 10;
     document.getElementById("canvas3D1").onmousemove = function (e) {
         if (e.buttons == 1) {
-            camera1.position.x = camera1.position.x - e.movementX * deltam * (camera1.position.z / 1000);
-            camera1.position.y = camera1.position.y + e.movementY * deltam * (camera1.position.z / 1000);
+            camera1.position.x = camera1.position.x - deltam*e.movementX /(camera1.zoom);
+            camera1.position.y = camera1.position.y + deltam*e.movementY /(camera1.zoom);
             /*console.log(Math.round(camera1.position.x / 100));
             if ((trigx != Math.round(camera1.position.x / 100) && Math.round(camera1.position.x / 500) % 5 == 0)) {
                 trigx = Math.round(camera1.position.x / 100);
@@ -219,10 +219,12 @@ window.onload = function () {
         camera1.bottom = camera1.bottom-e.deltaY;*/
         console.log(camera1.zoom);
 
-            if(e.deltaY>0) zdelta=zdelta+0.001; else zdelta=zdelta-0.001;
-            
-            camera1.zoom = camera1.zoom + e.deltaY*zdelta;
-            if(camera1.zoom<1) camera1.zoom = 1;
+            //if(e.deltaY>0) zdelta=zdelta+0.001; else zdelta=zdelta-0.001;
+            console.log(e.deltaY + " " + camera1.zoom);
+            if(camera1.zoom>=0.2)
+            camera1.zoom = camera1.zoom - e.deltaY*zdelta*camera1.zoom;
+            else camera1.zoom=0.2;
+            //if(camera1.zoom<1) camera1.zoom = 1;
         
 
         camera1.updateProjectionMatrix();
