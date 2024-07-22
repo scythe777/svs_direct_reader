@@ -217,10 +217,7 @@ window.onload = function () {
         camera1.right = camera1.right+e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
         camera1.top = camera1.top+e.deltaY;
         camera1.bottom = camera1.bottom-e.deltaY;*/
-        console.log(camera1.zoom);
 
-            //if(e.deltaY>0) zdelta=zdelta+0.001; else zdelta=zdelta-0.001;
-            console.log(e.deltaY + " " + camera1.zoom);
             if(camera1.zoom>=0.2)
             camera1.zoom = camera1.zoom - e.deltaY*zdelta*camera1.zoom;
             else camera1.zoom=0.2;
