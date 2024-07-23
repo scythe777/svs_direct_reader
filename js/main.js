@@ -99,12 +99,12 @@ window.onload = function () {
         mes = new Array();
 
         async function lf() {
-            for (let i = -5; i < 5; i++) {
+            for (let i = -10; i < 10; i++) {
                 /*geom[i] = [];
                 mat[i] = [];*/
                 mes[i] = [];
 
-                for (let j = -5; j < 5; j++) {
+                for (let j = -10; j < 10; j++) {
                     //geom[i][j] = new THREE.PlaneGeometry(300, 300);
                     //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
                     texture = await loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
@@ -176,47 +176,50 @@ window.onload = function () {
             coordy = coordy - deltam * e.movementY / 300 / (camera1.zoom);
             /*console.log(Math.round(coordx / 10));
             console.log(Math.round(coordy / 10));*/
-            if (cx != (Math.round(coordx))) {
-
+            if (cx != (Math.round(coordx)) || cy != (Math.round(coordy))) {
                 lf();
                 cx = Math.round(coordx);
-                console.log(cx);
+                cy = Math.round(coordy);
+                console.log(cx + " " + cy);
 
             }
 
             async function lf() {
                 //let i = 10;
-                if (coordx > 0) {
-                    for (let i = 5 + cx; i <= 5 + +Math.round(coordx); i++) {
+                //if (cx > 0) {
+                    for (let i = -5+ cx; i <= 5 + +Math.round(coordx); i++) {
                         if (mes[i] == undefined) {
                             mes[i] = [];
                         }
 
-                        for (let j = -5; j < 5; j++) {
+                        for (let j = -5 - cy; j <= 5 - +Math.round(coordy); j++) {
+                            if(mes[i][j] == undefined)
+                            loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
+                                ge = new THREE.PlaneGeometry(300, 300);
+                                ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
 
-                            texture = loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
-                            ge = new THREE.PlaneGeometry(300, 300);
-                            ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                            if (mes[i][j] == undefined) {
-                                mes[i][j] = new THREE.Mesh(ge, ma);
-                                mes[i][j].position.x = i * 300;
-                                mes[i][j].position.y = j * 300;
-                                scene1.add(mes[i][j]);
-                            }
+                                if (mes[i][j] == undefined) {
+                                    mes[i][j] = new THREE.Mesh(ge, ma);
+                                    mes[i][j].position.x = i * 300;
+                                    mes[i][j].position.y = j * 300;
+                                    scene1.add(mes[i][j]);
+                                }
+                            });
+
                             //console.log(Math.round(coordx) - +30);
 
                         }
                     }
-                }
-                else {
-                    for (let i = -5 - cx; i >= -5 + +Math.round(coordx); i--) {
+                //}
+                /*else {
+                    for (let i = -10 + cx; i >= -10 + +Math.round(coordx); i--) {
                         if (mes[i] == undefined) {
                             mes[i] = [];
                         }
 
-                        for (let j = -5; j < 5; j++) {
+                        for (let j = -5 +cy; j >= 5 -Math.round(coordy); j++) {
 
-                            texture = loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
+                            loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
                             ge = new THREE.PlaneGeometry(300, 300);
                             ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                             if (mes[i][j] == undefined) {
@@ -224,12 +227,14 @@ window.onload = function () {
                                 mes[i][j].position.x = i * 300;
                                 mes[i][j].position.y = j * 300;
                                 scene1.add(mes[i][j]);
+
                             }
-                            console.log(Math.round(coordx) - +30);
+                        });
+                            //console.log(Math.round(coordx) - +30);
 
                         }
                     }
-                }
+                }*/
             };
         }
 
