@@ -24,9 +24,6 @@ namespace HttpListenerExample
             // While a user hasn't visited the `shutdown` url, keep on handling requests
             while (runServer)
             {
-
-
-
                 //input.ReadTile(tileBuf,0,256,256,0,0);
                 // Will wait here until we hear from a connection
                 HttpListenerContext ctx = await listener.GetContextAsync();

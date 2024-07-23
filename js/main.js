@@ -1,13 +1,16 @@
 import * as THREE from "/js/three.module.js";
 
 
-
+var coordx = 0;
+var coordy = 0;
 
 window.onload = function () {
     var camera, camera1, scene, scene1, renderer, renderer2, renderer3, renderer4;
     var geometry, material, mesh;
     var geometry1, material1, mesh1;
     var geometry2, material2, mesh2;
+
+
 
     var geom;
     var mat;
@@ -71,7 +74,7 @@ window.onload = function () {
 
 
         //camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
-        camera1 = new THREE.OrthographicCamera( -window.innerWidth, window.innerWidth, window.innerHeight, -window.innerHeight, 1, 15000 );
+        camera1 = new THREE.OrthographicCamera(-window.innerWidth, window.innerWidth, window.innerHeight, -window.innerHeight, 1, 15000);
         // установка z-координаты камерыc
         camera1.position.z = 1000;
         camera1.position.y = 0;
@@ -96,29 +99,29 @@ window.onload = function () {
         mes = new Array();
 
         async function lf() {
-        for (let i = -10; i < 10; i++) {
-            /*geom[i] = [];
-            mat[i] = [];*/
-            mes[i] = [];
+            for (let i = -5; i < 5; i++) {
+                /*geom[i] = [];
+                mat[i] = [];*/
+                mes[i] = [];
 
-            for (let j = -10; j < 10; j++) {
-                //geom[i][j] = new THREE.PlaneGeometry(300, 300);
-                //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
-                texture = await loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
-                //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                ge = new THREE.PlaneGeometry(300, 300);
-                ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                mes[i][j] = new THREE.Mesh(ge, ma);
-                //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
-                mes[i][j].position.x = i * 300;
-                mes[i][j].position.y = j * 300;
-                scene1.add(mes[i][j]);
+                for (let j = -5; j < 5; j++) {
+                    //geom[i][j] = new THREE.PlaneGeometry(300, 300);
+                    //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
+                    texture = await loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
+                    //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                    ge = new THREE.PlaneGeometry(300, 300);
+                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                    mes[i][j] = new THREE.Mesh(ge, ma);
+                    //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
+                    mes[i][j].position.x = i * 300;
+                    mes[i][j].position.y = j * 300;
+                    scene1.add(mes[i][j]);
 
-                //mes[i,j].position.y = j*300;
+                    //mes[i,j].position.y = j*300;
 
-            }
-        };
-        
+                }
+            };
+
         }
         lf();
 
@@ -163,49 +166,57 @@ window.onload = function () {
     var deltam = 4.8;
     var currentx = 10;
     var currenty = 10;
+    let cx = 0;
+    let cy = 0;
     document.getElementById("canvas3D1").onmousemove = function (e) {
         if (e.buttons == 1) {
-            camera1.position.x = camera1.position.x - deltam*e.movementX /(camera1.zoom);
-            camera1.position.y = camera1.position.y + deltam*e.movementY /(camera1.zoom);
-            /*console.log(Math.round(camera1.position.x / 100));
-            if ((trigx != Math.round(camera1.position.x / 100) && Math.round(camera1.position.x / 500) % 5 == 0)) {
-                trigx = Math.round(camera1.position.x / 100);
-                trigy = Math.round(camera1.position.y / 100);
-                deltax = deltax+1;
+            camera1.position.x = camera1.position.x - deltam * e.movementX / (camera1.zoom);
+            camera1.position.y = camera1.position.y + deltam * e.movementY / (camera1.zoom);
+            coordx = coordx - deltam * e.movementX / 100 / (camera1.zoom);
+            coordy = coordy - deltam * e.movementY / 100 / (camera1.zoom);
+            /*console.log(Math.round(coordx / 10));
+            console.log(Math.round(coordy / 10));*/
+            if (cx != (Math.round(coordx))) {
+                cx = Math.round(coordx)
+                lf();
+                //console.log(cx);
+                
+            }
 
-                for (let i = 0; i < 5; i++) {
+            async function lf() {
+                //let i = 10;
+                for (let i = 4 + cx; i <= 4 + +Math.round(coordx); i++) {
+                    if (mes[i] == undefined) {
+                        mes[i] = [];
+                    }
 
-                    newi = +i + +currentx;
-                    //console.log(newi);
-                    mes[newi] = [];
-                    mes[newj] = [];
-
-                    for (let j = 0; j < 5; j++) {
-                        newj = +j + +currenty;
-                        console.log(newi + " " + newj);
-                        //console.log('./js/texture_' + (+lxh + +newi) + "_" + (+lyh + -newj));
-                        texture = loader.load('./js/texture_' + (+lxh + +newi) + "_" + (+lyh + -newj));
+                    for (let j = -5; j < 5; j++) {
+                        //geom[i][j] = new THREE.PlaneGeometry(300, 300);
+                        //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
+                        texture = await loader.load('./js/texture_' + (+lxh + +4 + +Math.round(coordx)) + "_" + (+lyh + -j));
                         //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                         ge = new THREE.PlaneGeometry(300, 300);
                         ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                        if (mes[newi][newj] == undefined) {
-                            mes[newi][newj] = new THREE.Mesh(ge, ma);
+                        if (mes[i][j] == undefined) {
+
+                            mes[i][j] = new THREE.Mesh(ge, ma);
                             //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
-                            mes[newi][newj].position.x = (+newi) * 300;
-                            mes[newi][newj].position.y = newj * 300;
-                            scene1.add(mes[newi][newj]);
-                            try
-                            {
-                               //scene1.remove(mes[newi-100][newj-100]);
-                            }
-                            catch{}
+                            mes[i][j].position.x = i * 300;
+                            mes[i][j].position.y = j * 300;
+                            scene1.add(mes[i][j]);
+                            
                         }
-                        //scene1.remove(mes[-10+ +newi][j]);
+                        console.log(Math.round(coordx) - +30);
+                        try {
+                            //scene1.remove(mes[Math.round(coordx*camera1.zoom) - +30][j]);
+                            //mes[Math.round(coordx*camera1.zoom) - +30][j] = null;
+                        }
+                        catch { }
+                        //mes[i,j].position.y = j*300;
+
                     }
                 }
-                currentx+=5;
-                currenty+=5;
-            }*/
+            };
             //scene1.remove(mes[Math.round(camera1.position.x/1000)][Math.round(camera1.position.x/1000)]);
 
         }
@@ -219,12 +230,12 @@ window.onload = function () {
         camera1.right = camera1.right+e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
         camera1.top = camera1.top+e.deltaY;
         camera1.bottom = camera1.bottom-e.deltaY;*/
+        console.log(camera1.zoom);
+        if (camera1.zoom >= 0.2)
+            camera1.zoom = camera1.zoom - e.deltaY * zdelta * camera1.zoom;
+        else camera1.zoom = 0.2;
+        //if(camera1.zoom<1) camera1.zoom = 1;
 
-            if(camera1.zoom>=0.2)
-            camera1.zoom = camera1.zoom - e.deltaY*zdelta*camera1.zoom;
-            else camera1.zoom=0.2;
-            //if(camera1.zoom<1) camera1.zoom = 1;
-        
 
         camera1.updateProjectionMatrix();
         //console.log(camera1.position.z);
