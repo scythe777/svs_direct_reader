@@ -72,7 +72,7 @@ window.onload = function () {
 
         //camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
         camera1 = new THREE.OrthographicCamera( -window.innerWidth, window.innerWidth, window.innerHeight, -window.innerHeight, 1, 15000 );
-        // установка z-координаты камеры
+        // установка z-координаты камерыc
         camera1.position.z = 1000;
         camera1.position.y = 0;
         camera1.position.x = 0;
@@ -95,7 +95,7 @@ window.onload = function () {
         mat = new Array();
         mes = new Array();
 
-
+        async function lf() {
         for (let i = -10; i < 10; i++) {
             /*geom[i] = [];
             mat[i] = [];*/
@@ -104,7 +104,7 @@ window.onload = function () {
             for (let j = -10; j < 10; j++) {
                 //geom[i][j] = new THREE.PlaneGeometry(300, 300);
                 //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
-                texture = loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
+                texture = await loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
                 //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                 ge = new THREE.PlaneGeometry(300, 300);
                 ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
@@ -117,8 +117,10 @@ window.onload = function () {
                 //mes[i,j].position.y = j*300;
 
             }
+        };
+        
         }
-
+        lf();
 
 
 

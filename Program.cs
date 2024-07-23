@@ -24,8 +24,8 @@ namespace HttpListenerExample
             // While a user hasn't visited the `shutdown` url, keep on handling requests
             while (runServer)
             {
-                
-                
+
+
 
                 //input.ReadTile(tileBuf,0,256,256,0,0);
                 // Will wait here until we hear from a connection
@@ -47,6 +47,7 @@ namespace HttpListenerExample
                 {
                     if (req.Url.AbsolutePath == "/js/texture.png")
                     {
+
                         byte[] data = File.ReadAllBytes(@"./js/texture.png");
                         //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
                         //resp.ContentType = "";
@@ -60,24 +61,25 @@ namespace HttpListenerExample
                     }
                     else
                     {
-                    Console.WriteLine(req.Url.AbsolutePath);
-                    //int tile = Int32.Parse(req.Url.AbsolutePath.Split("_").Last());
-                    int tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
-                    int tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
-                    int rts = (int)input.RawTileSize(tilex+tiley*258);
-                    input.ReadRawTile(tilex+tiley*258, tileBuf, 0, rts);
-                    //byte[] data = File.ReadAllBytes("." + req.Url.AbsolutePath);
-                    //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
-                    //resp.ContentType = "";
-                    resp.ContentType = MediaTypeNames.Image.Jpeg;
-                    resp.ContentEncoding = Encoding.UTF8;
-                    //resp.ContentLength64 = data.LongLength;
-                    resp.ContentLength64 = rts;
+                        //Console.WriteLine(req.Url.AbsolutePath);
+                        //int tile = Int32.Parse(req.Url.AbsolutePath.Split("_").Last());
+                        int tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
+                        int tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
+                        int rts = (int)input.RawTileSize(tilex + tiley * 258);
+                        input.ReadRawTile(tilex + tiley * 258, tileBuf, 0, rts);
+                        //byte[] data = File.ReadAllBytes("." + req.Url.AbsolutePath);
+                        //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
+                        //resp.ContentType = "";
+                        resp.ContentType = MediaTypeNames.Image.Jpeg;
+                        resp.ContentEncoding = Encoding.UTF8;
+                        //resp.ContentLength64 = data.LongLength;
+                        resp.ContentLength64 = rts;
 
-                    // Write out to the response stream (asynchronously), then close it
-                    //resp.OutputStream.Write(data, 0, data.Length);
-                    resp.OutputStream.Write(tileBuf, 0, rts);
-                    resp.Close();
+                        // Write out to the response stream (asynchronously), then close it
+                        //resp.OutputStream.Write(data, 0, data.Length);
+                        resp.OutputStream.Write(tileBuf, 0, rts);
+                        resp.Close();
+
                     }
                 }
 
