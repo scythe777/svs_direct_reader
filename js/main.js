@@ -133,10 +133,10 @@ window.onload = function () {
 
 
         // создаем объект для рендеринга сцены
-        renderer = new THREE.WebGLRenderer({ canvas: canvas3D, antialias: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
         renderer2 = new THREE.WebGLRenderer({ canvas: canvas3D1, antialias: true });
+        renderer2.setPixelRatio(window.devicePixelRatio);
+        renderer2.setSize(document.getElementById("canvas3D1").clientWidth, document.getElementById("canvas3D1").clientHeight);
+        /*renderer2 = new THREE.WebGLRenderer({ canvas: canvas3D1, antialias: true });
         renderer2.setPixelRatio(window.devicePixelRatio);
         renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
 
@@ -146,7 +146,7 @@ window.onload = function () {
 
         renderer4 = new THREE.WebGLRenderer({ canvas: canvas3D3, antialias: true });
         renderer4.setPixelRatio(window.devicePixelRatio);
-        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
+        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);*/
         // установка размеров
         //renderer.setSize(window.innerWidth, window.innerHeight);
         // встраиваем в DOM-структуру страницы
@@ -163,7 +163,7 @@ window.onload = function () {
     var newi;
     var newj;
 
-    var deltam = 4.8;
+    var deltam = 3;
     var currentx = 10;
     var currenty = 10;
     let cx = 0;
@@ -210,31 +210,7 @@ window.onload = function () {
 
                         }
                     }
-                //}
-                /*else {
-                    for (let i = -10 + cx; i >= -10 + +Math.round(coordx); i--) {
-                        if (mes[i] == undefined) {
-                            mes[i] = [];
-                        }
 
-                        for (let j = -5 +cy; j >= 5 -Math.round(coordy); j++) {
-
-                            loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
-                            ge = new THREE.PlaneGeometry(300, 300);
-                            ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
-                            if (mes[i][j] == undefined) {
-                                mes[i][j] = new THREE.Mesh(ge, ma);
-                                mes[i][j].position.x = i * 300;
-                                mes[i][j].position.y = j * 300;
-                                scene1.add(mes[i][j]);
-
-                            }
-                        });
-                            //console.log(Math.round(coordx) - +30);
-
-                        }
-                    }
-                }*/
             };
         }
 
@@ -268,11 +244,10 @@ window.onload = function () {
         camera1.aspect = window.innerWidth / window.innerHeight;
         camera1.updateProjectionMatrix();
 
-        renderer.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
-        renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
+        renderer2.setSize(document.getElementById("canvas3D1").clientWidth, document.getElementById("canvas3D1").clientHeight);
+        /*renderer2.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
         renderer3.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
-        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);
-
+        renderer4.setSize(window.innerWidth / 2 - 150, window.innerHeight / 2 - 90);*/
     }
 
 
@@ -288,10 +263,10 @@ window.onload = function () {
         /*mesh1.rotation.x -= 0.004;
         mesh1.rotation.y += 0.004;*/
         // рендеринг сцены - метод, производящий по сути отрисовку
-        renderer.render(scene, camera);
+        //renderer.render(scene, camera);
         renderer2.render(scene1, camera1);
-        renderer3.render(scene, camera);
-        renderer4.render(scene, camera);
+        /*renderer3.render(scene, camera);
+        renderer4.render(scene, camera);*/
     }
 }
 
