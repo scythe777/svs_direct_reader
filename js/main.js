@@ -74,7 +74,7 @@ window.onload = function () {
 
 
         //camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
-        camera1 = new THREE.OrthographicCamera(-window.innerWidth, window.innerWidth, window.innerHeight, -window.innerHeight, 1, 15000);
+        camera1 = new THREE.OrthographicCamera(-document.getElementById("canvas3D1").clientWidth/2, document.getElementById("canvas3D1").clientWidth/2, document.getElementById("canvas3D1").clientWidth/2, -document.getElementById("canvas3D1").clientWidth/2, 0, 1500);
         // установка z-координаты камерыc
         camera1.position.z = 1000;
         camera1.position.y = 0;
@@ -99,12 +99,12 @@ window.onload = function () {
         mes = new Array();
 
         async function lf() {
-            for (let i = -10; i < 10; i++) {
+            for (let i = -Math.round(1200/300/camera1.zoom/2)-5; i < Math.round(1200/300/camera1.zoom/2)+5; i++) {
                 /*geom[i] = [];
                 mat[i] = [];*/
                 mes[i] = [];
 
-                for (let j = -10; j < 10; j++) {
+                for (let j = -Math.round(600/300/camera1.zoom/2)-5; j < Math.round(600/300/camera1.zoom/2)+5; j++) {
                     //geom[i][j] = new THREE.PlaneGeometry(300, 300);
                     //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
                     texture = await loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
@@ -163,7 +163,7 @@ window.onload = function () {
     var newi;
     var newj;
 
-    var deltam = 3;
+    var deltam = 1;
     var currentx = 10;
     var currenty = 10;
     let cx = 0;
@@ -187,12 +187,12 @@ window.onload = function () {
             async function lf() {
                 //let i = 10;
                 //if (cx > 0) {
-                    for (let i = -5+ cx; i <= 5 + +Math.round(coordx); i++) {
+                    for (let i = -Math.round(1800/300/camera1.zoom/2) + cx; i <= Math.round(1800/300/camera1.zoom/2) + +Math.round(coordx); i++) {
                         if (mes[i] == undefined) {
                             mes[i] = [];
                         }
 
-                        for (let j = -5 - cy; j <= 5 - +Math.round(coordy); j++) {
+                        for (let j = -Math.round(1500/300/camera1.zoom/2) - cy; j <= Math.round(1500/300/camera1.zoom/2) - +Math.round(coordy); j++) {
                             if(mes[i][j] == undefined)
                             loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
                                 ge = new THREE.PlaneGeometry(300, 300);
