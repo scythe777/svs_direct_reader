@@ -17,6 +17,10 @@ namespace HttpListenerExample
         public static int requestCount = 0;
         static Tiff input;
         static byte[] tileBuf;
+        static short currdir = 0;
+        static int tilex = 0;
+        static int tiley = 0;
+        static int rts = 0;
         public static async Task HandleIncomingConnections()
         {
             bool runServer = true;
@@ -58,12 +62,28 @@ namespace HttpListenerExample
                     }
                     else
                     {
+
                         //Console.WriteLine(req.Url.AbsolutePath);
                         //int tile = Int32.Parse(req.Url.AbsolutePath.Split("_").Last());
-                        int tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
-                        int tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
-                        int rts = (int)input.RawTileSize(tilex + tiley * 258);
-                        input.ReadRawTile(tilex + tiley * 258, tileBuf, 0, rts);
+                        int zlevel = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
+                        if (zlevel == 1)
+                        {
+                            input.SetDirectory(0);
+
+                            tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
+                            tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[3]);
+                            rts = (int)input.RawTileSize(tilex + tiley * 258);
+                            input.ReadRawTile(tilex + tiley * 258, tileBuf, 0, rts);
+                        }
+
+                        if (zlevel == 2)
+                        {
+                            input.SetDirectory(2);
+                            tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
+                            tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[3]);
+                            rts = (int)input.RawTileSize(tilex + tiley * 65);
+                            input.ReadRawTile(tilex + tiley * 65, tileBuf, 0, rts);
+                        }
                         //byte[] data = File.ReadAllBytes("." + req.Url.AbsolutePath);
                         //byte[] data = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit));
                         //resp.ContentType = "";

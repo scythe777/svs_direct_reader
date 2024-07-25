@@ -10,7 +10,7 @@ window.onload = function () {
     var geometry1, material1, mesh1;
     var geometry2, material2, mesh2;
 
-
+    var zoom;
 
     var geom;
     var mat;
@@ -74,7 +74,7 @@ window.onload = function () {
 
 
         //camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
-        camera1 = new THREE.OrthographicCamera(-document.getElementById("canvas3D1").clientWidth/2, document.getElementById("canvas3D1").clientWidth/2, document.getElementById("canvas3D1").clientWidth/2, -document.getElementById("canvas3D1").clientWidth/2, 0, 1500);
+        camera1 = new THREE.OrthographicCamera(-document.getElementById("canvas3D1").clientWidth / 2, document.getElementById("canvas3D1").clientWidth / 2, document.getElementById("canvas3D1").clientWidth / 2, -document.getElementById("canvas3D1").clientWidth / 2, 0, 1500);
         // установка z-координаты камерыc
         camera1.position.z = 1000;
         camera1.position.y = 0;
@@ -99,15 +99,15 @@ window.onload = function () {
         mes = new Array();
 
         async function lf() {
-            for (let i = -Math.round(1200/300/camera1.zoom/2)-5; i < Math.round(1200/300/camera1.zoom/2)+5; i++) {
+            for (let i = -Math.round(1200 / 300 / camera1.zoom / 2) - 5; i < Math.round(1200 / 300 / camera1.zoom / 2) + 5; i++) {
                 /*geom[i] = [];
                 mat[i] = [];*/
                 mes[i] = [];
 
-                for (let j = -Math.round(600/300/camera1.zoom/2)-5; j < Math.round(600/300/camera1.zoom/2)+5; j++) {
+                for (let j = -Math.round(600 / 300 / camera1.zoom / 2) - 5; j < Math.round(600 / 300 / camera1.zoom / 2) + 5; j++) {
                     //geom[i][j] = new THREE.PlaneGeometry(300, 300);
                     //texture = loader.load('./js/texture' + (Math.round(camera1.position.x/1000)+i + 9333 - ((Math.round(camera1.position.y/1000)+j) * 258)));
-                    texture = await loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j));
+                    texture = await loader.load('./js/texture_1_' + (+lxh + +i) + "_" + (+lyh + -j));
                     //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                     ge = new THREE.PlaneGeometry(300, 300);
                     ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
@@ -187,29 +187,58 @@ window.onload = function () {
             async function lf() {
                 //let i = 10;
                 //if (cx > 0) {
-                    for (let i = -Math.round(1800/300/camera1.zoom/2) + cx; i <= Math.round(1800/300/camera1.zoom/2) + +Math.round(coordx); i++) {
+                if (camera1.zoom > 0.25 && camera1.zoom < 1.2) {
+                    for (let i = -Math.round(1800 / 300 / camera1.zoom / 2) + cx; i <= Math.round(1800 / 300 / camera1.zoom / 2) + +Math.round(coordx); i++) {
                         if (mes[i] == undefined) {
                             mes[i] = [];
                         }
 
-                        for (let j = -Math.round(1500/300/camera1.zoom/2) - cy; j <= Math.round(1500/300/camera1.zoom/2) - +Math.round(coordy); j++) {
-                            if(mes[i][j] == undefined)
-                            loader.load('./js/texture_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
-                                ge = new THREE.PlaneGeometry(300, 300);
-                                ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                        for (let j = -Math.round(1500 / 300 / camera1.zoom / 2) - cy; j <= Math.round(1500 / 300 / camera1.zoom / 2) - +Math.round(coordy); j++) {
+                            if (mes[i][j] == undefined)
+                                loader.load('./js/texture_1_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
+                                    ge = new THREE.PlaneGeometry(300, 300);
+                                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
 
-                                if (mes[i][j] == undefined) {
-                                    mes[i][j] = new THREE.Mesh(ge, ma);
-                                    mes[i][j].position.x = i * 300;
-                                    mes[i][j].position.y = j * 300;
-                                    scene1.add(mes[i][j]);
-                                }
-                            });
+                                    if (mes[i][j] == undefined) {
+                                        mes[i][j] = new THREE.Mesh(ge, ma);
+                                        mes[i][j].position.x = i * 300;
+                                        mes[i][j].position.y = j * 300;
+                                        scene1.add(mes[i][j]);
+                                    }
+                                });
 
                             //console.log(Math.round(coordx) - +30);
 
                         }
                     }
+                }
+                if (camera1.zoom <=0.25)
+                {
+                    for (let i = -Math.round(1800 / 1200 / camera1.zoom / 2) + Math.round(cx/4); i <= Math.round(1800 / 1200 / camera1.zoom / 2) + +Math.round(coordx/4); i++) {
+                        if (mes[i] == undefined) {
+                            mes[i] = [];
+                        }
+
+                        for (let j = -Math.round(1500 / 1200 / camera1.zoom / 2) - Math.round(cy/4); j <= Math.round(1500 / 1200 / camera1.zoom / 2) - +Math.round(coordy/4); j++) {
+                            if (mes[i][j] == undefined)
+                                loader.load('./js/texture_2_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
+                                    ge = new THREE.PlaneGeometry(1200, 1200);
+                                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+
+                                    if (mes[i][j] == undefined) {
+                                        mes[i][j] = new THREE.Mesh(ge, ma);
+                                        mes[i][j].position.x = i * 1200;
+                                        mes[i][j].position.y = j * 1200;
+                                        mes[i][j].position.z = 100;
+                                        scene1.add(mes[i][j]);
+                                    }
+                                });
+
+                            //console.log(Math.round(coordx) - +30);
+
+                        }
+                    }
+                }
 
             };
         }
