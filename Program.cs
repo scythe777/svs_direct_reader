@@ -68,7 +68,11 @@ namespace HttpListenerExample
                         int zlevel = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
                         if (zlevel == 1)
                         {
-                            input.SetDirectory(0);
+                            if(currdir != 0)
+                            {
+                                input.SetDirectory(0);
+                                currdir = 0;
+                            }
 
                             tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
                             tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[3]);
@@ -78,7 +82,12 @@ namespace HttpListenerExample
 
                         if (zlevel == 2)
                         {
-                            input.SetDirectory(2);
+                            if(currdir != 2)
+                            {
+                                input.SetDirectory(2);
+                                currdir = 2;
+                            }
+                            
                             tilex = Int32.Parse(req.Url.AbsolutePath.Split("_")[2]);
                             tiley = Int32.Parse(req.Url.AbsolutePath.Split("_")[3]);
                             rts = (int)input.RawTileSize(tilex + tiley * 65);

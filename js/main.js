@@ -11,15 +11,18 @@ window.onload = function () {
     var geometry2, material2, mesh2;
 
     var zoom;
+    var wf = false;
 
     var geom;
     var mat;
-    var mes;
+    var mes, mes2;
     var loader;
     var lx = 258;
     var ly = 126;
     var lxh = 179;
     var lyh = 68;
+    var lxh2 = 44;
+    var lyh2 = 17;
     var texture;
     var ge;
     var ma;
@@ -76,7 +79,7 @@ window.onload = function () {
         //camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 15000);
         camera1 = new THREE.OrthographicCamera(-document.getElementById("canvas3D1").clientWidth / 2, document.getElementById("canvas3D1").clientWidth / 2, document.getElementById("canvas3D1").clientWidth / 2, -document.getElementById("canvas3D1").clientWidth / 2, 0, 1500);
         // установка z-координаты камерыc
-        camera1.position.z = 1000;
+        camera1.position.z = 500;
         camera1.position.y = 0;
         camera1.position.x = 0;
         //material = new THREE.MeshPhongMaterial();
@@ -97,6 +100,7 @@ window.onload = function () {
         geom = new Array();
         mat = new Array();
         mes = new Array();
+        mes2 = new Array();
 
         async function lf() {
             for (let i = -Math.round(1200 / 300 / camera1.zoom / 2) - 5; i < Math.round(1200 / 300 / camera1.zoom / 2) + 5; i++) {
@@ -110,7 +114,7 @@ window.onload = function () {
                     texture = await loader.load('./js/texture_1_' + (+lxh + +i) + "_" + (+lyh + -j));
                     //mat[i][j] = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
                     ge = new THREE.PlaneGeometry(300, 300);
-                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: wf });
                     mes[i][j] = new THREE.Mesh(ge, ma);
                     //mes[i][j] = new THREE.Mesh(geom[i][j], mat[i][j]);
                     mes[i][j].position.x = i * 300;
@@ -187,7 +191,7 @@ window.onload = function () {
             async function lf() {
                 //let i = 10;
                 //if (cx > 0) {
-                if (camera1.zoom > 0.25 && camera1.zoom < 1.2) {
+                if (camera1.zoom > 0.5 && camera1.zoom < 1.2) {
                     for (let i = -Math.round(1800 / 300 / camera1.zoom / 2) + cx; i <= Math.round(1800 / 300 / camera1.zoom / 2) + +Math.round(coordx); i++) {
                         if (mes[i] == undefined) {
                             mes[i] = [];
@@ -197,7 +201,7 @@ window.onload = function () {
                             if (mes[i][j] == undefined)
                                 loader.load('./js/texture_1_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
                                     ge = new THREE.PlaneGeometry(300, 300);
-                                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: wf });
 
                                     if (mes[i][j] == undefined) {
                                         mes[i][j] = new THREE.Mesh(ge, ma);
@@ -212,25 +216,24 @@ window.onload = function () {
                         }
                     }
                 }
-                if (camera1.zoom <=0.25)
-                {
-                    for (let i = -Math.round(1800 / 1200 / camera1.zoom / 2) + Math.round(cx/4); i <= Math.round(1800 / 1200 / camera1.zoom / 2) + +Math.round(coordx/4); i++) {
-                        if (mes[i] == undefined) {
-                            mes[i] = [];
+                if (camera1.zoom <= 0.8) {
+
+                    for (let i = -Math.round(1800 / 1200 / camera1.zoom / 2) + Math.round(cx / 4); i <= Math.round(1800 / 1200 / camera1.zoom / 2) + +Math.round(coordx / 4); i++) {
+                        if (mes2[i] == undefined) {
+                            mes2[i] = [];
                         }
-
-                        for (let j = -Math.round(1500 / 1200 / camera1.zoom / 2) - Math.round(cy/4); j <= Math.round(1500 / 1200 / camera1.zoom / 2) - +Math.round(coordy/4); j++) {
-                            if (mes[i][j] == undefined)
-                                loader.load('./js/texture_2_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
+                        for (let j = -Math.round(1500 / 1200 / camera1.zoom / 2) - Math.round(cy / 4); j <= Math.round(1500 / 1200 / camera1.zoom / 2) - +Math.round(coordy / 4); j++) {
+                            if (mes2[i][j] == undefined)
+                                loader.load('./js/texture_2_' + (+lxh2 + +i) + "_" + (+lyh2 + -j), function (texture) {
                                     ge = new THREE.PlaneGeometry(1200, 1200);
-                                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
+                                    ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: wf });
 
-                                    if (mes[i][j] == undefined) {
-                                        mes[i][j] = new THREE.Mesh(ge, ma);
-                                        mes[i][j].position.x = i * 1200;
-                                        mes[i][j].position.y = j * 1200;
-                                        mes[i][j].position.z = 100;
-                                        scene1.add(mes[i][j]);
+                                    if (mes2[i][j] == undefined) {
+                                        mes2[i][j] = new THREE.Mesh(ge, ma);
+                                        mes2[i][j].position.x = i * 1200 - +450;
+                                        mes2[i][j].position.y = j * 1200 - +450;
+                                        mes2[i][j].position.z = 100;
+                                        scene1.add(mes2[i][j]);
                                     }
                                 });
 
@@ -247,6 +250,11 @@ window.onload = function () {
 
     var zdelta = 0.001;
     document.getElementById("canvas3D1").onwheel = function (e) {
+        if(camera1.zoom >=0.5)
+        {
+            camera1.position.z = 50;
+        }
+        else camera1.position.z = 150;
         //camera1.position.z = camera1.position.z + e.deltaY * 0.8 * (camera1.position.z / 1000);
         /*camera1.left = camera1.left-e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
         camera1.right = camera1.right+e.deltaY*(camera1.right-camera1.left)/(camera1.top-camera1.bottom);
