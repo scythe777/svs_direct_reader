@@ -12,7 +12,7 @@ namespace HttpListenerExample
     class HttpServer
     {
         public static HttpListener listener;
-        public static string url = "http://localhost:8000/";
+        public static string url = "http://127.0.0.1:8000/";
         public static int pageViews = 0;
         public static int requestCount = 0;
         static Tiff input;
@@ -63,6 +63,8 @@ namespace HttpListenerExample
                     else
                     {
 
+                        try
+                        {
                         //Console.WriteLine(req.Url.AbsolutePath);
                         //int tile = Int32.Parse(req.Url.AbsolutePath.Split("_").Last());
                         int zlevel = Int32.Parse(req.Url.AbsolutePath.Split("_")[1]);
@@ -106,6 +108,8 @@ namespace HttpListenerExample
                         resp.OutputStream.Write(tileBuf, 0, rts);
                         resp.Close();
 
+                    }
+                    catch {}
                     }
                 }
 
