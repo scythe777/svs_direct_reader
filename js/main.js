@@ -172,7 +172,10 @@ window.onload = function () {
     var currenty = 10;
     let cx = 0;
     let cy = 0;
-    document.getElementById("canvas3D1").onmousemove = function (e) {
+
+    document.getElementById("canvas3D1").addEventListener("mousemove", movehandler);
+
+    function movehandler(e) {
         if (e.buttons == 1) {
             camera1.position.x = camera1.position.x - deltam * e.movementX / (camera1.zoom);
             camera1.position.y = camera1.position.y + deltam * e.movementY / (camera1.zoom);
@@ -216,7 +219,7 @@ window.onload = function () {
                         }
                     }
                 }
-                if (camera1.zoom <= 0.8) {
+                if (camera1.zoom <= 0.5) {
 
                     for (let i = -Math.round(1800 / 1200 / camera1.zoom / 2) + Math.round(cx / 4); i <= Math.round(1800 / 1200 / camera1.zoom / 2) + +Math.round(coordx / 4); i++) {
                         if (mes2[i] == undefined) {
@@ -250,7 +253,7 @@ window.onload = function () {
 
     var zdelta = 0.001;
     document.getElementById("canvas3D1").onwheel = function (e) {
-        if(camera1.zoom >=0.5)
+        if(camera1.zoom >=0.8)
         {
             camera1.position.z = 50;
         }
@@ -268,6 +271,63 @@ window.onload = function () {
 
 
         camera1.updateProjectionMatrix();
+        lf();
+        async function lf() {
+            //let i = 10;
+            //if (cx > 0) {
+            if (camera1.zoom > 0.5 && camera1.zoom < 1.2) {
+                for (let i = -Math.round(1800 / 300 / camera1.zoom / 2) + cx; i <= Math.round(1800 / 300 / camera1.zoom / 2) + +Math.round(coordx); i++) {
+                    if (mes[i] == undefined) {
+                        mes[i] = [];
+                    }
+
+                    for (let j = -Math.round(1500 / 300 / camera1.zoom / 2) - cy; j <= Math.round(1500 / 300 / camera1.zoom / 2) - +Math.round(coordy); j++) {
+                        if (mes[i][j] == undefined)
+                            loader.load('./js/texture_1_' + (+lxh + +i) + "_" + (+lyh + -j), function (texture) {
+                                ge = new THREE.PlaneGeometry(300, 300);
+                                ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: wf });
+
+                                if (mes[i][j] == undefined) {
+                                    mes[i][j] = new THREE.Mesh(ge, ma);
+                                    mes[i][j].position.x = i * 300;
+                                    mes[i][j].position.y = j * 300;
+                                    scene1.add(mes[i][j]);
+                                }
+                            });
+
+                        //console.log(Math.round(coordx) - +30);
+
+                    }
+                }
+            }
+            if (camera1.zoom <= 0.5) {
+
+                for (let i = -Math.round(1800 / 1200 / camera1.zoom / 2) + Math.round(cx / 4); i <= Math.round(1800 / 1200 / camera1.zoom / 2) + +Math.round(coordx / 4); i++) {
+                    if (mes2[i] == undefined) {
+                        mes2[i] = [];
+                    }
+                    for (let j = -Math.round(1500 / 1200 / camera1.zoom / 2) - Math.round(cy / 4); j <= Math.round(1500 / 1200 / camera1.zoom / 2) - +Math.round(coordy / 4); j++) {
+                        if (mes2[i][j] == undefined)
+                            loader.load('./js/texture_2_' + (+lxh2 + +i) + "_" + (+lyh2 + -j), function (texture) {
+                                ge = new THREE.PlaneGeometry(1200, 1200);
+                                ma = new THREE.MeshPhongMaterial({ map: texture, wireframe: wf });
+
+                                if (mes2[i][j] == undefined) {
+                                    mes2[i][j] = new THREE.Mesh(ge, ma);
+                                    mes2[i][j].position.x = i * 1200 - +450;
+                                    mes2[i][j].position.y = j * 1200 - +450;
+                                    mes2[i][j].position.z = 100;
+                                    scene1.add(mes2[i][j]);
+                                }
+                            });
+
+                        //console.log(Math.round(coordx) - +30);
+
+                    }
+                }
+            }
+
+        };
         //console.log(camera1.position.z);
     }
 
