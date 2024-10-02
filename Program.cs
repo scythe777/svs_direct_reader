@@ -8,11 +8,13 @@ using BitMiracle.LibTiff.Classic;
 using System.Security;
 using NetVips;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 
 namespace HttpListenerExample
 {
     class HttpServer
     {
+        static string filename = "LABJP2.svs";
         public static HttpListener listener;
         public static string url = "http://127.0.0.1:8000/";
         public static int pageViews = 0;
@@ -23,6 +25,10 @@ namespace HttpListenerExample
         static int tilex = 0;
         static int tiley = 0;
         static int rts = 0;
+
+        static int tilex1;
+        static int tilex2;
+        static int tilex3;
 
         public static async Task HandleIncomingConnections()
         {
@@ -49,9 +55,9 @@ namespace HttpListenerExample
                             tilex = Int32.Parse(req.Url.AbsolutePath.Split("/")[4].Split("_")[0]);
                             tiley = Int32.Parse(req.Url.AbsolutePath.Split("/")[4].Split("_")[1]);
                             //Console.WriteLine("{0} {1}", req.Url.AbsolutePath.Split("/")[4].Split("_")[0].ToString(), req.Url.AbsolutePath.Split("/")[4].Split("_")[1].ToString()/*req.Url.AbsolutePath.Split("/")[4].Split("_")[1]*/);
-                            rts = (int)input.RawTileSize(tilex + tiley * 180);
+                            rts = (int)input.RawTileSize(tilex + tiley * tilex1);
                             tileBuf = new byte[rts];
-                            input.ReadRawTile(tilex + tiley * 180, tileBuf, 0, rts);
+                            input.ReadRawTile(tilex + tiley * tilex1, tileBuf, 0, rts);
                         }
 
                         if (dirn == 2)
@@ -64,9 +70,9 @@ namespace HttpListenerExample
 
                             tilex = Int32.Parse(req.Url.AbsolutePath.Split("/")[4].Split("_")[0]);
                             tiley = Int32.Parse(req.Url.AbsolutePath.Split("/")[4].Split("_")[1]);
-                            rts = (int)input.RawTileSize(tilex + tiley * 45);
+                            rts = (int)input.RawTileSize(tilex + tiley * tilex2);
                             tileBuf = new byte[rts];
-                            input.ReadRawTile(tilex + tiley * 45, tileBuf, 0, rts);
+                            input.ReadRawTile(tilex + tiley * tilex2, tileBuf, 0, rts);
                         }
 
                         if (dirn == 3)
@@ -79,9 +85,9 @@ namespace HttpListenerExample
 
                             tilex = Int32.Parse(req.Url.AbsolutePath.Split("/")[4].Split("_")[0]);
                             tiley = Int32.Parse(req.Url.AbsolutePath.Split("/")[4].Split("_")[1]);
-                            rts = (int)input.RawTileSize(tilex + tiley * 12);
+                            rts = (int)input.RawTileSize(tilex + tiley * tilex3);
                             tileBuf = new byte[rts];
-                            input.ReadRawTile(tilex + tiley * 12, tileBuf, 0, rts);
+                            input.ReadRawTile(tilex + tiley * tilex3, tileBuf, 0, rts);
                         }
                     }
 
@@ -146,21 +152,26 @@ namespace HttpListenerExample
 
         public static void Main(string[] args)
         {
-            //tileBuf = new byte[1000];
-            //tileBuf = new byte[100000];
-            input = Tiff.Open("LABJP2.svs", "r");
+
+            input = Tiff.Open(filename, "r");
             input.SetDirectory(0);
-            // Create a Http server and start listening for incoming connections
+            tilex1 = (int) Math.Ceiling(input.GetField(TiffTag.IMAGEWIDTH)[0].ToDouble()/input.GetField(TiffTag.TILEWIDTH)[0].ToDouble());
+            input.SetDirectory(2);
+            tilex2 = (int) Math.Ceiling(input.GetField(TiffTag.IMAGEWIDTH)[0].ToDouble()/input.GetField(TiffTag.TILEWIDTH)[0].ToDouble());
+            input.SetDirectory(3);
+            tilex3 = (int) Math.Ceiling(input.GetField(TiffTag.IMAGEWIDTH)[0].ToDouble()/input.GetField(TiffTag.TILEWIDTH)[0].ToDouble());
+            input.SetDirectory(0);
+
             listener = new HttpListener();
             listener.Prefixes.Add(url);
             listener.Start();
             Console.WriteLine("Listening for connections on {0}", url);
 
-            // Handle requests
+            
             Task listenTask = Task.Run(HandleIncomingConnections);
             listenTask.GetAwaiter().GetResult();
 
-            // Close the listener
+            
             listener.Close();
         }
     }
